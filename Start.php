@@ -49,6 +49,9 @@ class Start2
             case 5:
                 $this->displayDepartmentsMenu();
                 break;
+            case 6:
+                $this->displayMedicalRecordsMenu();
+                break;
 
             case 7:
                 echo 'Have a nice day';
@@ -180,6 +183,31 @@ class Start2
                 break;
             default:
                 $this->displayDepertmentsMenu();
+        }
+    }
+
+    private function displayMedicalRecordsMenu()
+    {
+        echo 'Medical records menu' . PHP_EOL;
+        echo '1. View medical records' . PHP_EOL;
+        echo '2. Add new medical records' . PHP_EOL;
+        echo '3. Update existing medical records' . PHP_EOL;
+        echo '4. Delete medical records' . PHP_EOL;
+        echo '5. Back to main menu' . PHP_EOL;
+        $this->choosingOptionMedicalRecordsMenu();
+    }
+
+    private function choosingOptionMedicalRecordsMenu()
+    {
+        switch (Helper::maxRange('Choose an option: ', 1, 5)) {
+            case 1:
+                $this->viewMedicalRecords();
+
+            case 5:
+                $this->displayMainMenu();
+                break;
+            default:
+                $this->displayMedicalRecordsMenu();
         }
     }
 
