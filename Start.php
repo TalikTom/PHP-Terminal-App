@@ -224,7 +224,7 @@ class Start2
         echo 'Current appointments' . PHP_EOL;
         $ol=1;
         foreach($this->appointments as $appointment){
-            echo $ol++ . '. ' . $appointment->date . PHP_EOL;
+            echo $ol++ . '. ' . $appointment->date . ' ' . $appointment->time .PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
         $this->displayAppointmentsMenu();
@@ -234,7 +234,8 @@ class Start2
     private function addApointment()
     {
         $s = new stdClass();
-        $s->date = Helper::textEntry('Enter new appointment: ');
+        $s->date = Helper::textEntry('Enter new appointment date(Y-M-D): ');
+        $s->time = Helper::textEntry('Enter new appointment time(hh:mm): ');
 
         $this->appointments[]= $s;
         $this->displayAppointmentsMenu();
