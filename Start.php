@@ -39,6 +39,12 @@ class Start2
             case 2:
                 $this->displayVisitingRecordsMenu();
                 break;
+            case 3:
+                $this->displayPatientsMenu();
+                break;
+            case 4:
+                $this->displayDoctorsMenu();
+                break;
 
             case 7:
                 echo 'Have a nice day';
@@ -95,6 +101,56 @@ class Start2
                 break;
             default:
                 $this->displayVisitingRecordsMenu();
+        }
+    }
+
+    private function displayPatientsMenu()
+    {
+        echo 'Patients menu' . PHP_EOL;
+        echo '1. View patients' . PHP_EOL;
+        echo '2. Add new patient' . PHP_EOL;
+        echo '3. Update existing patient' . PHP_EOL;
+        echo '4. Delete patient' . PHP_EOL;
+        echo '5. Back to main menu' . PHP_EOL;
+        $this->choosingOptionPatientsMenu();
+    }
+
+    private function choosingOptionPatientsMenu()
+    {
+        switch (Helper::maxRange('Choose an option: ', 1, 5)) {
+            case 1:
+                $this->viewPatients();
+
+            case 5:
+                $this->displayMainMenu();
+                break;
+            default:
+                $this->displayPatientsMenu();
+        }
+    }
+
+    private function displayDoctorsMenu()
+    {
+        echo 'Doctors menu' . PHP_EOL;
+        echo '1. View doctors' . PHP_EOL;
+        echo '2. Add new doctors' . PHP_EOL;
+        echo '3. Update existing doctors' . PHP_EOL;
+        echo '4. Delete doctor' . PHP_EOL;
+        echo '5. Back to main menu' . PHP_EOL;
+        $this->choosingOptionDoctorsMenu();
+    }
+
+    private function choosingOptionDoctorsMenu()
+    {
+        switch (Helper::maxRange('Choose an option: ', 1, 5)) {
+            case 1:
+                $this->viewDoctors();
+
+            case 5:
+                $this->displayMainMenu();
+                break;
+            default:
+                $this->displayDoctorsMenu();
         }
     }
 
