@@ -9,7 +9,7 @@ class Start2
 
     public function __construct()
     {
-        $this->appointments=[];
+        $this->appointments = [];
         $this->getMessage();
         $this->displayMainMenu();
     }
@@ -83,6 +83,12 @@ class Start2
                 break;
             case 2:
                 $this->addApointment();
+                break;
+            case 3:
+                $this->updateAppointment();
+                break;
+            case 4:
+                $this->deleteAppointment();
                 break;
 
             case 5:
@@ -218,16 +224,19 @@ class Start2
         }
     }
 
-    private function viewAppointments()
+    private function viewAppointments($displayAppointments = true)
     {
         echo '--------------------' . PHP_EOL;
         echo 'Current appointments' . PHP_EOL;
-        $ol=1;
-        foreach($this->appointments as $appointment){
-            echo $ol++ . '. ' . $appointment->date . ' ' . $appointment->time .PHP_EOL;
+        $ol = 1;
+        foreach ($this->appointments as $appointment) {
+            echo $ol++ . '. ' . $appointment->date . ' ' . $appointment->time . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
-        $this->displayAppointmentsMenu();
+        if ($displayAppointments) {
+            $this->displayAppointmentsMenu();
+        }
+
 
     }
 
@@ -237,13 +246,46 @@ class Start2
         $s->date = Helper::textEntry('Enter new appointment date(Y-M-D): ');
         $s->time = Helper::textEntry('Enter new appointment time(hh:mm): ');
 
-        $this->appointments[]= $s;
+        $this->appointments[] = $s;
         $this->displayAppointmentsMenu();
 
     }
 
+    private function deleteAppointment()
+    {
+        $this->viewAppointments(false);
+        $ol = Helper::maxRange('Pick an appointment to delete: ', 1, count($this->appointments));
+        $ol--;
+        array_splice($this->appointments, $ol, 1);
+        echo '       __     __     __           __' . PHP_EOL;
+        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
+        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
 
+        $this->displayAppointmentsMenu();
+    }
 
+    private function updateAppointment()
+    {
+        $this->viewAppointments(false);
+        $ol = Helper::maxRange('Pick an appointment to update: ', 1, count($this->appointments));
+        $ol--;
+        $this->appointments[$ol]->date = Helper::textEntry('Enter new date (' .
+            $this->appointments[$ol]->date
+            .'): ', $this->appointments[$ol]->date);
+        $this->appointments[$ol]->time = Helper::textEntry('Enter new time (' .
+            $this->appointments[$ol]->time
+            .'): ', $this->appointments[$ol]->time);
+        echo '                   __      __           __' . PHP_EOL;
+        echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
+        echo ' / / / / __ \/ __  / __ `/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ / /_/ / /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/ .___/\__,_/\__,_/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '    /_/                                   ' . PHP_EOL;
+        $this->displayAppointmentsMenu();
+
+    }
 
 }
 
