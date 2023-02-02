@@ -46,6 +46,10 @@ class Start2
                 $this->displayDoctorsMenu();
                 break;
 
+            case 5:
+                $this->displayDepartmentsMenu();
+                break;
+
             case 7:
                 echo 'Have a nice day';
                 break;
@@ -151,6 +155,31 @@ class Start2
                 break;
             default:
                 $this->displayDoctorsMenu();
+        }
+    }
+
+    private function displayDepartmentsMenu()
+    {
+        echo 'Departments menu' . PHP_EOL;
+        echo '1. View departments' . PHP_EOL;
+        echo '2. Add new departments' . PHP_EOL;
+        echo '3. Update existing departments' . PHP_EOL;
+        echo '4. Delete departments' . PHP_EOL;
+        echo '5. Back to main menu' . PHP_EOL;
+        $this->choosingOptionDepartmentsMenu();
+    }
+
+    private function choosingOptionDepartmentsMenu()
+    {
+        switch (Helper::maxRange('Choose an option: ', 1, 5)) {
+            case 1:
+                $this->viewDepertments();
+
+            case 5:
+                $this->displayMainMenu();
+                break;
+            default:
+                $this->displayDepertmentsMenu();
         }
     }
 
