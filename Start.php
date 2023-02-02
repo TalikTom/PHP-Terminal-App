@@ -36,6 +36,9 @@ class Start2
             case 1:
                 $this->displayAppointmentsMenu();
                 break;
+            case 2:
+                $this->displayVisitingRecordsMenu();
+                break;
 
             case 7:
                 echo 'Have a nice day';
@@ -67,6 +70,31 @@ class Start2
                 break;
             default:
                 $this->displayAppointmentsMenu();
+        }
+    }
+
+    private function displayVisitingRecordsMenu()
+    {
+        echo 'Visiting records menu' . PHP_EOL;
+        echo '1. View visitation records' . PHP_EOL;
+        echo '2. Add new visitation record' . PHP_EOL;
+        echo '3. Update existing visitation record' . PHP_EOL;
+        echo '4. Delete visitation record' . PHP_EOL;
+        echo '5. Back to main menu' . PHP_EOL;
+        $this->choosingOptionVisitationsMenu();
+    }
+
+    private function choosingOptionVisitationsMenu()
+    {
+        switch (Helper::maxRange('Choose an option: ', 1, 5)) {
+            case 1:
+                $this->viewVisitations();
+
+            case 5:
+                $this->displayMainMenu();
+                break;
+            default:
+                $this->displayVisitingRecordsMenu();
         }
     }
 
