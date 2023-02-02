@@ -5,8 +5,11 @@ include_once 'Helper.php';
 class Start2
 {
 
+    private $appointments;
+
     public function __construct()
     {
+        $this->appointments=[];
         $this->getMessage();
         $this->displayMainMenu();
     }
@@ -77,6 +80,10 @@ class Start2
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
                 $this->viewAppointments();
+                break;
+            case 2:
+                $this->addApointment();
+                break;
 
             case 5:
                 $this->displayMainMenu();
@@ -210,6 +217,31 @@ class Start2
                 $this->displayMedicalRecordsMenu();
         }
     }
+
+    private function viewAppointments()
+    {
+        echo '--------------------' . PHP_EOL;
+        echo 'Current appointments' . PHP_EOL;
+        $ol=1;
+        foreach($this->appointments as $appointment){
+            echo $ol++ . '. ' . $appointment->date . PHP_EOL;
+        }
+        echo '--------------------' . PHP_EOL;
+        $this->displayAppointmentsMenu();
+
+    }
+
+    private function addApointment()
+    {
+        $s = new stdClass();
+        $s->date = Helper::textEntry('Enter new appointment: ');
+
+        $this->appointments[]= $s;
+        $this->displayAppointmentsMenu();
+
+    }
+
+
 
 
 }

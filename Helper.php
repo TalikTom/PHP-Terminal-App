@@ -13,4 +13,15 @@ class Helper{
             return $i;
         }
     }
+
+    public static function textEntry($message){
+        while(true){
+            $s = readline($message);
+            $s = trim($s);
+            if(strlen($s) === 0){
+                echo 'You must enter a value!';
+            }
+            return $s;
+        }
+    }
 }
