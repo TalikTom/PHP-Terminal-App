@@ -8,12 +8,14 @@ class Start2
     private $appointments;
     private $visitations;
     private $patients;
+    private $doctors;
 
     public function __construct()
     {
         $this->appointments = [];
         $this->visitations = [];
         $this->patients = [];
+        $this->doctors = [];
         $this->getMessage();
         $this->displayMainMenu();
     }
@@ -60,7 +62,6 @@ class Start2
             case 4:
                 $this->displayDoctorsMenu();
                 break;
-
             case 5:
                 $this->displayDepartmentsMenu();
                 break;
@@ -197,6 +198,10 @@ class Start2
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
                 $this->viewDoctors();
+                break;
+            case 2:
+                $this->addDoctor();
+                break;
 
             case 5:
                 $this->displayMainMenu();
@@ -485,6 +490,70 @@ class Start2
         echo '                                    ' . PHP_EOL;
 
         $this->displayPatientsMenu();
+    }
+
+    private function addDoctor()
+    {
+        $o = new stdClass();
+        $o->firstName = Helper::textEntry('Enter first name: ');
+        $o->lastName = Helper::textEntry('Enter last name: ');
+        $o->specialization = Helper::textEntry('Enter specialization: ');
+        $o->oib = Helper::textEntry('Enter oib: ');
+        $o->department_id = Helper::textEntry('Enter department id: ');
+
+        $o->patients=[];
+        while(true){
+            $this->viewPatients(false);
+            $rb = Helper::maxRange('Choose a patient: ',1,count($this->patients));
+            $rb--;
+            if(!in_array($this->patients[$rb],$o->patients)){
+                $o->patients[] = $this->patients[$rb];
+            }else{
+                echo 'You already selected this patient!' . PHP_EOL;
+
+            }
+
+            if(Helper::maxRange('1 to continue, 0 to end: ',0,1)===0){
+                break;
+            }
+        }
+
+
+        $this->doctors[]=$o;
+        $this->displayDoctorsMenu();
+
+    }
+
+    private function viewDoctors($displayDoctors=true)
+    {
+//        echo '------------------------' . PHP_EOL;
+//        echo 'All doctors: ' . PHP_EOL;
+//        $ol = 1;
+//        foreach ($this->doctors as $doctor) {
+//            echo '------------------------' . PHP_EOL;
+//            echo $ol++ . '. ' . $doctor->firstName . ' ' . $doctor->lastName . PHP_EOL . $doctor->specialization . ' ' . $doctor->oib . ' ' .$doctor->department_id . PHP_EOL;
+//
+//        }
+//        echo '------------------------' . PHP_EOL;
+//        if ($displayDoctors) {
+//            $this->displayDoctorsMenu();
+//        }
+        echo '--------------------' . PHP_EOL;
+        echo 'Doctors: ' . PHP_EOL;
+        $rb=1;
+        foreach($this->doctors as $v){
+            echo $rb++ . '. ' . $v->firstName .
+                '  ' . count($v->patients)
+                . ' patients' . PHP_EOL;
+            $rbp=0;
+            foreach($v->patients as $p){
+                echo "\t" . ++$rbp . '. '  . $p->firstName . ' ' . $p->lastName . PHP_EOL;
+            }
+        }
+        echo '--------------------' . PHP_EOL;
+        if($displayDoctors){
+            $this->displayDoctorsMenu();
+        }
     }
 
 }
