@@ -7,11 +7,13 @@ class Start2
 
     private $appointments;
     private $visitations;
+    private $patients;
 
     public function __construct()
     {
         $this->appointments = [];
         $this->visitations = [];
+        $this->patients = [];
         $this->getMessage();
         $this->displayMainMenu();
     }
@@ -160,6 +162,16 @@ class Start2
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
                 $this->viewPatients();
+                break;
+            case 2:
+                $this->addPatient();
+                break;
+            case 3:
+                $this->updatePatient();
+                break;
+            case 4:
+                $this->deletePatient();
+                break;
 
             case 5:
                 $this->displayMainMenu();
@@ -388,6 +400,91 @@ class Start2
         echo '                                          ' . PHP_EOL;
         $this->displayVisitationsRecordsMenu();
 
+    }
+
+    private function addPatient()
+    {
+        $p = new stdClass();
+        $p->firstName = Helper::textEntry('Enter first name of the patient: ');
+        $p->lastName = Helper::textEntry('Enter last name of the patient: ');
+        $p->address = Helper::textEntry('Enter patients address: ');
+        $p->oib = Helper::textEntry('Enter patients OIB: ');
+        $p->doctor_id = Helper::textEntry('Enter doctors ID: ');
+
+
+        $this->patients[] = $p;
+        echo '                                ' . PHP_EOL;
+        echo '             __    __         __' . PHP_EOL;
+        echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
+        echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
+        echo '                                ' . PHP_EOL;
+        $this->displayPatientsMenu();
+    }
+
+    private function viewPatients($displayPatients=true)
+    {
+        echo '------------------------' . PHP_EOL;
+        echo 'All patients' . PHP_EOL;
+        $ol = 1;
+        foreach ($this->patients as $patient) {
+            echo '------------------------' . PHP_EOL;
+            echo $ol++ . '. ' . $patient->firstName . ' ' . $patient->lastName . PHP_EOL . $patient->address . ' ' . $patient->oib . ' ' .$patient->doctor_id . PHP_EOL;
+
+        }
+        echo '------------------------' . PHP_EOL;
+        if ($displayPatients) {
+            $this->displayPatientsMenu();
+        }
+    }
+
+    private function updatePatient()
+    {
+        $this->viewPatients(false);
+        $ol = Helper::maxRange('Pick a patient to update: ', 1, count($this->patients));
+        $ol--;
+        $this->patients[$ol]->firstName = Helper::textEntry('Enter new first name (' .
+            $this->patients[$ol]->firstName
+            .'): ', $this->patients[$ol]->firstName);
+        $this->patients[$ol]->lastName = Helper::textEntry('Enter new last name (' .
+            $this->patients[$ol]->lastName
+            .'): ', $this->patients[$ol]->lastName);
+        $this->patients[$ol]->address = Helper::textEntry('Enter new address (' .
+            $this->patients[$ol]->address
+            .'): ', $this->patients[$ol]->address);
+        $this->patients[$ol]->oib = Helper::textEntry('Enter new oib (' .
+            $this->patients[$ol]->oib
+            .'): ', $this->patients[$ol]->oib);
+        $this->patients[$ol]->doctor_id = Helper::textEntry('Enter new doctor id (' .
+            $this->patients[$ol]->doctor_id
+            .'): ', $this->patients[$ol]->doctor_id);
+        echo '                                          ' . PHP_EOL;
+        echo '                   __      __           __' . PHP_EOL;
+        echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
+        echo ' / / / / __ \/ __  / __ `/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ / /_/ / /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/ .___/\__,_/\__,_/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '    /_/                                   ' . PHP_EOL;
+        echo '                                          ' . PHP_EOL;
+        $this->displayPatientsMenu();
+    }
+
+    private function deletePatient()
+    {
+        $this->viewPatients(false);
+        $ol = Helper::maxRange('Pick a patient to delete: ', 1, count($this->patients));
+        $ol--;
+        array_splice($this->patients, $ol, 1);
+        echo '                                    ' . PHP_EOL;
+        echo '       __     __     __           __' . PHP_EOL;
+        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
+        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '                                    ' . PHP_EOL;
+
+        $this->displayPatientsMenu();
     }
 
 }
