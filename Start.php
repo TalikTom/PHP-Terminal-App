@@ -10,6 +10,7 @@ class Start2
     private $patients;
     private $doctors;
     private $departments;
+    private $medicalRecords;
 
     public function __construct()
     {
@@ -18,6 +19,7 @@ class Start2
         $this->patients = [];
         $this->doctors = [];
         $this->departments = [];
+        $this->medicalRecords = [];
         $this->getMessage();
         $this->displayMainMenu();
     }
@@ -264,6 +266,15 @@ class Start2
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
                 $this->viewMedicalRecords();
+                break;
+            case 2:
+                $this->addMedicalRecord();
+                break;
+            case 3:
+                $this->updateMedicalRecord();
+                break;
+            case 4:
+                $this->deleteMedicalRecord();
 
             case 5:
                 $this->displayMainMenu();
@@ -587,7 +598,7 @@ class Start2
         $this->displayDepartmentsMenu();
     }
 
-    private function viewDepartments($displayDeparments=true)
+    private function viewDepartments($displayDepartments=true)
     {
         echo '--------------------' . PHP_EOL;
         echo 'Current departments' . PHP_EOL;
@@ -596,7 +607,7 @@ class Start2
             echo $ol++ . '. ' . $department->departmentName . ' ' . '|| Total rooms: '. $department->numberOfRooms . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
-        if ($displayDeparments) {
+        if ($displayDepartments) {
             $this->displayDepartmentsMenu();
         }
     }
@@ -638,6 +649,41 @@ class Start2
         echo '                                    ' . PHP_EOL;
 
         $this->displayDepartmentsMenu();
+    }
+
+    private function addMedicalRecord()
+    {
+        $m = new stdClass();
+        $m->date = Helper::textEntry('Enter the date of the doctors visit: ');
+        $m->diagnosis = Helper::textEntry('Enter patients diagnosis: ');
+        $m->patient_id = Helper::textEntry('Enter patients id: ');
+
+
+
+        $this->medicalRecords[] = $m;
+        echo '                                ' . PHP_EOL;
+        echo '             __    __         __' . PHP_EOL;
+        echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
+        echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
+        echo '                                ' . PHP_EOL;
+        $this->displayMedicalRecordsMenu();
+    }
+
+    private function viewMedicalRecords($displayMedicalRecords=true)
+    {
+        echo '--------------------' . PHP_EOL;
+        echo 'Medical records: ' . PHP_EOL;
+        $ol = 1;
+        foreach ($this->medicalRecords as $medicalRecord) {
+            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . 'Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
+        }
+        echo '--------------------' . PHP_EOL;
+        if ($displayMedicalRecords) {
+            $this->displayMedicalRecordsMenu();
+
+        }
     }
 
 }
