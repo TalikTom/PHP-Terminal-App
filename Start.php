@@ -74,7 +74,15 @@ class Start2
                 break;
 
             case 7:
-                echo 'Have a nice day';
+                echo '                                         ' . PHP_EOL;
+                echo '-------------Have a nice day-------------' . PHP_EOL;
+                echo '                                         ' . PHP_EOL;
+                echo ' _   ______  __  ______ _____ ____  _____' . PHP_EOL;
+                echo '| | / / __ \/ / / / __ `/ __ `/ _ \/ ___/' . PHP_EOL;
+                echo '| |/ / /_/ / /_/ / /_/ / /_/ /  __/ /    ' . PHP_EOL;
+                echo '|___/\____/\__, /\__,_/\__, /\___/_/     ' . PHP_EOL;
+                echo '          /____/      /____/             ' . PHP_EOL;
+                echo '                                         ' . PHP_EOL;
                 break;
             default:
                 $this->displayMainMenu();
@@ -677,13 +685,55 @@ class Start2
         echo 'Medical records: ' . PHP_EOL;
         $ol = 1;
         foreach ($this->medicalRecords as $medicalRecord) {
-            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . 'Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
+            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . '||'. ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
         if ($displayMedicalRecords) {
             $this->displayMedicalRecordsMenu();
 
         }
+    }
+
+    private function updateMedicalRecord()
+    {
+        $this->viewMedicalRecords(false);
+        $ol = Helper::maxRange('Pick a medical record to update: ', 1, count($this->medicalRecords));
+        $ol--;
+        $this->medicalRecords[$ol]->patient_id = Helper::textEntry('Enter new patients id (' .
+            $this->medicalRecords[$ol]->patient_id
+            .'): ', $this->medicalRecords[$ol]->patient_id);
+        $this->medicalRecords[$ol]->patient_id = Helper::textEntry('Enter new department date (' .
+            $this->medicalRecords[$ol]->date
+            .'): ', $this->medicalRecords[$ol]->date);
+        $this->medicalRecords[$ol]->diagnosis = Helper::textEntry('Enter updated diagnosis (' .
+            $this->medicalRecords[$ol]->diagnosis
+            .'): ', $this->medicalRecords[$ol]->diagnosis);
+        echo '                                          ' . PHP_EOL;
+        echo '                   __      __           __' . PHP_EOL;
+        echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
+        echo ' / / / / __ \/ __  / __ `/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ / /_/ / /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/ .___/\__,_/\__,_/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '    /_/                                   ' . PHP_EOL;
+        echo '                                          ' . PHP_EOL;
+        $this->displayMedicalRecordsMenu();
+    }
+
+    private function deleteMedicalRecord()
+    {
+        $this->viewMedicalRecords(false);
+        $ol = Helper::maxRange('Pick a medical record to delete: ', 1, count($this->medicalRecords));
+        $ol--;
+        array_splice($this->medicalRecords, $ol, 1);
+        echo '                                    ' . PHP_EOL;
+        echo '       __     __     __           __' . PHP_EOL;
+        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
+        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '                                    ' . PHP_EOL;
+
+        $this->displayMedicalRecordsMenu();
     }
 
 }
