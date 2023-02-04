@@ -9,6 +9,7 @@ class Start2
     private $visitations;
     private $patients;
     private $doctors;
+    private $departments;
 
     public function __construct()
     {
@@ -16,6 +17,7 @@ class Start2
         $this->visitations = [];
         $this->patients = [];
         $this->doctors = [];
+        $this->departments = [];
         $this->getMessage();
         $this->displayMainMenu();
     }
@@ -226,13 +228,17 @@ class Start2
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewDepertments();
+                $this->viewDepartments();
+                break;
+            case 2:
+                $this->addDepartment();
+                break;
 
             case 5:
                 $this->displayMainMenu();
                 break;
             default:
-                $this->displayDepertmentsMenu();
+                $this->displayDepartmentsMenu();
         }
     }
 
@@ -553,6 +559,39 @@ class Start2
         echo '--------------------' . PHP_EOL;
         if($displayDoctors){
             $this->displayDoctorsMenu();
+        }
+    }
+
+    private function addDepartment()
+    {
+        $d = new stdClass();
+        $d->departmentName = Helper::textEntry('Enter departments name: ');
+        $d->numberOfRooms = Helper::textEntry('Enter number of rooms: ');
+
+
+
+        $this->departments[] = $d;
+        echo '                                ' . PHP_EOL;
+        echo '             __    __         __' . PHP_EOL;
+        echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
+        echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
+        echo '                                ' . PHP_EOL;
+        $this->displayDepartmentsMenu();
+    }
+
+    private function viewDepartments($displayDeparments=true)
+    {
+        echo '--------------------' . PHP_EOL;
+        echo 'Current appointments' . PHP_EOL;
+        $ol = 1;
+        foreach ($this->departments as $department) {
+            echo $ol++ . '. ' . $department->departmentName . ' ' . $department->numberOfRooms . PHP_EOL;
+        }
+        echo '--------------------' . PHP_EOL;
+        if ($displayDeparments) {
+            $this->displayAppointmentsMenu();
         }
     }
 
