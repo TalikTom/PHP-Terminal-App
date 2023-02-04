@@ -233,6 +233,12 @@ class Start2
             case 2:
                 $this->addDepartment();
                 break;
+            case 3:
+                $this->updateDepartment();
+                break;
+            case 4:
+                $this->deleteDepartment();
+                break;
 
             case 5:
                 $this->displayMainMenu();
@@ -584,15 +590,54 @@ class Start2
     private function viewDepartments($displayDeparments=true)
     {
         echo '--------------------' . PHP_EOL;
-        echo 'Current appointments' . PHP_EOL;
+        echo 'Current departments' . PHP_EOL;
         $ol = 1;
         foreach ($this->departments as $department) {
-            echo $ol++ . '. ' . $department->departmentName . ' ' . $department->numberOfRooms . PHP_EOL;
+            echo $ol++ . '. ' . $department->departmentName . ' ' . '|| Total rooms: '. $department->numberOfRooms . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
         if ($displayDeparments) {
-            $this->displayAppointmentsMenu();
+            $this->displayDepartmentsMenu();
         }
+    }
+
+    private function updateDepartment()
+    {
+        $this->viewDepartments(false);
+        $ol = Helper::maxRange('Pick a department to update: ', 1, count($this->departments));
+        $ol--;
+        $this->departments[$ol]->departmentName = Helper::textEntry('Enter new department name (' .
+            $this->departments[$ol]->departmentName
+            .'): ', $this->departments[$ol]->departmentName);
+        $this->departments[$ol]->numberOfRooms = Helper::textEntry('Enter total number of rooms (' .
+            $this->departments[$ol]->numberOfRooms
+            .'): ', $this->departments[$ol]->numberOfRooms);
+        echo '                                          ' . PHP_EOL;
+        echo '                   __      __           __' . PHP_EOL;
+        echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
+        echo ' / / / / __ \/ __  / __ `/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ / /_/ / /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/ .___/\__,_/\__,_/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '    /_/                                   ' . PHP_EOL;
+        echo '                                          ' . PHP_EOL;
+        $this->displayDepartmentsMenu();
+    }
+
+    private function deleteDepartment()
+    {
+        $this->viewDepartments(false);
+        $ol = Helper::maxRange('Pick a patient to delete: ', 1, count($this->departments));
+        $ol--;
+        array_splice($this->departments, $ol, 1);
+        echo '                                    ' . PHP_EOL;
+        echo '       __     __     __           __' . PHP_EOL;
+        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
+        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '                                    ' . PHP_EOL;
+
+        $this->displayDepartmentsMenu();
     }
 
 }
