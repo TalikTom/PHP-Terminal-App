@@ -340,7 +340,7 @@ class Start2
     private function addApointment()
     {
         $s = new stdClass();
-        $s->date = Helper::textEntry('Enter new appointment date(Y-M-D): ');
+        $s->date = Helper::validateDateInput('Enter new appointment date(Y-M-D): ');
         $s->time = Helper::textEntry('Enter new appointment time(hh:mm): ');
 
         $this->appointments[] = $s;
