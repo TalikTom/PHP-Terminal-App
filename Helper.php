@@ -33,7 +33,7 @@ class Helper
 
     }
 
-    public static function validateDateInput($message, $value = '', $format = 'Y-m-d H:i:s')
+    public static function validateDateInput($message, $value = '')
     {
         while (true) {
             $s = readline($message);
@@ -45,7 +45,7 @@ class Helper
             if (strlen($s) === 0 && $value !== '') {
                 return $value;
             }
-            if (!Helper::validateDate(strlen($s))) {
+            if (!Helper::validateDate($s)) {
                 echo 'Invalid date format. Please try again.' . PHP_EOL;
                 continue;
             }
@@ -53,9 +53,15 @@ class Helper
         }
     }
 
-    public static function validateDate($date, $format = 'Y-m-d H:i:s')
+    public static function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
+
+//    public static function validateDate($date, $format = 'Y-m-d H:i:s')
+//    {
+//        $d = DateTime::createFromFormat($format, $date);
+//        return $d && $d->format($format) == $date;
+//    }
 }
