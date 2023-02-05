@@ -341,7 +341,7 @@ class Start2
     {
         $s = new stdClass();
         $s->date = Helper::validateDateInput('Enter new appointment date(Y-M-D): ');
-        $s->time = Helper::textEntry('Enter new appointment time(hh:mm): ');
+        $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');
 
         $this->appointments[] = $s;
         echo '                                ' . PHP_EOL;

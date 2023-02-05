@@ -53,7 +53,33 @@ class Helper
         }
     }
 
+    public static function validateTimeInput($message, $value = '')
+    {
+        while (true) {
+            $s = readline($message);
+            $s = trim($s);
+            if (strlen($s) === 0 && $value === '') {
+                echo 'You must enter a value!' . PHP_EOL;
+                continue;
+            }
+            if (strlen($s) === 0 && $value !== '') {
+                return $value;
+            }
+            if (!Helper::validateTime($s)) {
+                echo 'Invalid date format. Please try again.' . PHP_EOL;
+                continue;
+            }
+            return $s;
+        }
+    }
+
     public static function validateDate($date, $format = 'Y-m-d')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
+    public static function validateTime($date, $format = 'H:i')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
