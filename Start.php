@@ -39,7 +39,9 @@ class Start2
 
     public function displayMainMenu()
     {
+        echo PHP_EOL;
         echo 'This is the main menu, choose an option: ' . PHP_EOL;
+        echo PHP_EOL;
         echo '1. Visitor appointments menu' . PHP_EOL;
         echo '2. Visitation records menu' . PHP_EOL;
         echo '3. Patients menu' . PHP_EOL;
@@ -47,6 +49,7 @@ class Start2
         echo '5. Departments menu' . PHP_EOL;
         echo '6. Medical records menu' . PHP_EOL;
         echo '7. Exit terminal app' . PHP_EOL;
+        echo PHP_EOL;
         $this->choosingOptionMainMenu();
 
     }
@@ -74,15 +77,23 @@ class Start2
                 break;
 
             case 7:
-                echo '                                         ' . PHP_EOL;
-                echo '-------------Have a nice day-------------' . PHP_EOL;
-                echo '                                         ' . PHP_EOL;
+                echo PHP_EOL;
+
+                echo PHP_EOL;
                 echo ' _   ______  __  ______ _____ ____  _____' . PHP_EOL;
                 echo '| | / / __ \/ / / / __ `/ __ `/ _ \/ ___/' . PHP_EOL;
                 echo '| |/ / /_/ / /_/ / /_/ / /_/ /  __/ /    ' . PHP_EOL;
                 echo '|___/\____/\__, /\__,_/\__, /\___/_/     ' . PHP_EOL;
                 echo '          /____/      /____/             ' . PHP_EOL;
-                echo '                                         ' . PHP_EOL;
+                echo PHP_EOL;
+                echo '    __                       __        __'. PHP_EOL;
+                echo '   / /_  ____  _________  _ / /_____ _/ /'. PHP_EOL;
+                echo '  / __ \/ __ \/ ___/ __ \/ / __/ __ `/ / '. PHP_EOL;
+                echo ' / / / / /_/ (__  ) /_/ / / /_/ /_/ / /  '. PHP_EOL;
+                echo '/_/ /_/\____/____/ .___/_/\__/\__,_/_/   '. PHP_EOL;
+                echo '                /_/                      '. PHP_EOL;
+                echo PHP_EOL;
+                echo '-------------Have a nice day-------------' . PHP_EOL;
                 break;
             default:
                 $this->displayMainMenu();
@@ -91,12 +102,15 @@ class Start2
 
     private function displayAppointmentsMenu()
     {
-        echo 'Visitor appointments menu' . PHP_EOL;
+        echo PHP_EOL;
+        echo 'Visitor appointments menu:' . PHP_EOL;
+        echo PHP_EOL;
         echo '1. View appointments' . PHP_EOL;
         echo '2. Add new appointment' . PHP_EOL;
         echo '3. Update existing appointment' . PHP_EOL;
         echo '4. Delete appointments' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
+        echo PHP_EOL;
         $this->choosingOptionAppointmentMenu();
     }
 
@@ -126,12 +140,15 @@ class Start2
 
     private function displayVisitationsRecordsMenu()
     {
-        echo 'Visitation records menu' . PHP_EOL;
+        echo PHP_EOL;
+        echo 'Visitation records menu:' . PHP_EOL;
+        echo PHP_EOL;
         echo '1. View visitation records' . PHP_EOL;
         echo '2. Add new visitation record' . PHP_EOL;
         echo '3. Update existing visitation record' . PHP_EOL;
         echo '4. Delete visitation record' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
+        echo PHP_EOL;
         $this->choosingOptionVisitationsMenu();
     }
 
@@ -161,12 +178,15 @@ class Start2
 
     private function displayPatientsMenu()
     {
-        echo 'Patients menu' . PHP_EOL;
+        echo PHP_EOL;
+        echo 'Patients menu:' . PHP_EOL;
+        echo PHP_EOL;
         echo '1. View patients' . PHP_EOL;
         echo '2. Add new patient' . PHP_EOL;
         echo '3. Update existing patient' . PHP_EOL;
         echo '4. Delete patient' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
+        echo PHP_EOL;
         $this->choosingOptionPatientsMenu();
     }
 
@@ -196,12 +216,15 @@ class Start2
 
     private function displayDoctorsMenu()
     {
-        echo 'Doctors menu' . PHP_EOL;
+        echo PHP_EOL;
+        echo 'Doctors menu:' . PHP_EOL;
+        echo PHP_EOL;
         echo '1. View doctors' . PHP_EOL;
         echo '2. Add new doctors' . PHP_EOL;
         echo '3. Update existing doctors' . PHP_EOL;
         echo '4. Delete doctor' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
+        echo PHP_EOL;
         $this->choosingOptionDoctorsMenu();
     }
 
@@ -225,12 +248,15 @@ class Start2
 
     private function displayDepartmentsMenu()
     {
-        echo 'Departments menu' . PHP_EOL;
+        echo PHP_EOL;
+        echo 'Departments menu:' . PHP_EOL;
+        echo PHP_EOL;
         echo '1. View departments' . PHP_EOL;
         echo '2. Add new departments' . PHP_EOL;
         echo '3. Update existing departments' . PHP_EOL;
         echo '4. Delete departments' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
+        echo PHP_EOL;
         $this->choosingOptionDepartmentsMenu();
     }
 
@@ -260,12 +286,15 @@ class Start2
 
     private function displayMedicalRecordsMenu()
     {
-        echo 'Medical records menu' . PHP_EOL;
+        echo PHP_EOL;
+        echo 'Medical records menu:' . PHP_EOL;
+        echo PHP_EOL;
         echo '1. View medical records' . PHP_EOL;
         echo '2. Add new medical records' . PHP_EOL;
         echo '3. Update existing medical records' . PHP_EOL;
         echo '4. Delete medical records' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
+        echo PHP_EOL;
         $this->choosingOptionMedicalRecordsMenu();
     }
 
