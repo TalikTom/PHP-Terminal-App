@@ -340,7 +340,7 @@ class Start2
     private function addApointment()
     {
         $s = new stdClass();
-        $s->date = Helper::validateDateInput('Enter new appointment date(Y-M-D): ');
+        $s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
         $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');
 
         $this->appointments[] = $s;
@@ -412,8 +412,8 @@ class Start2
     private function addVisitation()
     {
         $s = new stdClass();
-        $s->date = Helper::textEntry('Enter new visitation date(Y-M-D): ');
-        $s->time = Helper::textEntry('Enter new visitation time(hh:mm): ');
+        $s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
+        $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');
 
         $this->visitations[] = $s;
         echo '                                ' . PHP_EOL;
@@ -558,7 +558,7 @@ class Start2
         $o->firstName = Helper::textEntry('Enter first name: ');
         $o->lastName = Helper::textEntry('Enter last name: ');
         $o->specialization = Helper::textEntry('Enter specialization: ');
-        $o->oib = Helper::textEntry('Enter oib: ');
+        $o->oib = Helper::validateOIB('Enter oib: ');
         $o->department_id = Helper::textEntry('Enter department id: ');
 
         $o->patients=[];
