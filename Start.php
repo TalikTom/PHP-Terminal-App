@@ -473,7 +473,7 @@ class Start2
         $p->firstName = Helper::textEntry('Enter first name of the patient: ');
         $p->lastName = Helper::textEntry('Enter last name of the patient: ');
         $p->address = Helper::textEntry('Enter patients address: ');
-        $p->oib = Helper::textEntry('Enter patients OIB: ');
+        $p->oib = Helper::validateOIB('Enter patients oib: ');
         $p->doctor_id = Helper::textEntry('Enter doctors ID: ');
 
 
@@ -518,7 +518,7 @@ class Start2
         $this->patients[$ol]->address = Helper::textEntry('Enter new address (' .
             $this->patients[$ol]->address
             .'): ', $this->patients[$ol]->address);
-        $this->patients[$ol]->oib = Helper::textEntry('Enter new oib (' .
+        $this->patients[$ol]->oib = Helper::validateOIB('Enter new oib (' .
             $this->patients[$ol]->oib
             .'): ', $this->patients[$ol]->oib);
         $this->patients[$ol]->doctor_id = Helper::textEntry('Enter new doctor id (' .
