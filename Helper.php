@@ -94,6 +94,27 @@ class Helper
         }
     }
 
+    public static function validateNoNumericals($message, $value = '')
+    {
+        while (true) {
+            $s = readline($message);
+            $s = trim($s);
+            if (strlen($s) === 0 && $value === '') {
+                echo 'You must enter a value!' . PHP_EOL;
+                continue;
+            }
+            if (strlen($s) === 0 && $value !== '') {
+                return $value;
+            }
+            if (!Helper::containsNoNumbers($s)) {
+                echo 'No numerical characters allowed, please try again.' . PHP_EOL;
+                continue;
+            }
+
+            return $s;
+        }
+    }
+
     public static function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
@@ -111,6 +132,13 @@ class Helper
             return true;
         }
         return false;
+    }
+
+    public static function containsNoNumbers($input) {
+        if (preg_match('/[0-9]+/', $input)) {
+            return false;
+        }
+        return true;
     }
 
 //    public static function validateDate($date, $format = 'Y-m-d H:i:s')

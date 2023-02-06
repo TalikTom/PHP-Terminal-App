@@ -121,7 +121,7 @@ class Start2
                 $this->viewAppointments();
                 break;
             case 2:
-                $this->addApointment();
+                $this->addAppointment();
                 break;
             case 3:
                 $this->updateAppointment();
@@ -337,7 +337,7 @@ class Start2
 
     }
 
-    private function addApointment()
+    private function addAppointment()
     {
         $s = new stdClass();
         $s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
@@ -377,10 +377,10 @@ class Start2
         $this->viewAppointments(false);
         $ol = Helper::maxRange('Pick an appointment to update: ', 1, count($this->appointments));
         $ol--;
-        $this->appointments[$ol]->date = Helper::textEntry('Enter new date (' .
+        $this->appointments[$ol]->date = Helper::validateDateInput('Enter new date (' .
             $this->appointments[$ol]->date
             .'): ', $this->appointments[$ol]->date);
-        $this->appointments[$ol]->time = Helper::textEntry('Enter new time (' .
+        $this->appointments[$ol]->time = Helper::validateTimeInput('Enter new time (' .
             $this->appointments[$ol]->time
             .'): ', $this->appointments[$ol]->time);
         echo '                                          ' . PHP_EOL;
@@ -449,10 +449,10 @@ class Start2
         $this->viewVisitations(false);
         $ol = Helper::maxRange('Pick an appointment to update: ', 1, count($this->visitations));
         $ol--;
-        $this->visitations[$ol]->date = Helper::textEntry('Enter new date (' .
+        $this->visitations[$ol]->date = Helper::validateDateInput('Enter new date (' .
             $this->visitations[$ol]->date
             .'): ', $this->visitations[$ol]->date);
-        $this->visitations[$ol]->time = Helper::textEntry('Enter new time (' .
+        $this->visitations[$ol]->time = Helper::validateTimeInput('Enter new time (' .
             $this->visitations[$ol]->time
             .'): ', $this->visitations[$ol]->time);
         echo '                                          ' . PHP_EOL;
@@ -470,8 +470,8 @@ class Start2
     private function addPatient()
     {
         $p = new stdClass();
-        $p->firstName = Helper::textEntry('Enter first name of the patient: ');
-        $p->lastName = Helper::textEntry('Enter last name of the patient: ');
+        $p->firstName = Helper::validateNoNumericals('Enter first name of the patient: ');
+        $p->lastName = Helper::validateNoNumericals('Enter last name of the patient: ');
         $p->address = Helper::textEntry('Enter patients address: ');
         $p->oib = Helper::validateOIB('Enter patients oib: ');
         $p->doctor_id = Helper::textEntry('Enter doctors ID: ');
@@ -509,10 +509,10 @@ class Start2
         $this->viewPatients(false);
         $ol = Helper::maxRange('Pick a patient to update: ', 1, count($this->patients));
         $ol--;
-        $this->patients[$ol]->firstName = Helper::textEntry('Enter new first name (' .
+        $this->patients[$ol]->firstName = Helper::validateNoNumericals('Enter new first name (' .
             $this->patients[$ol]->firstName
             .'): ', $this->patients[$ol]->firstName);
-        $this->patients[$ol]->lastName = Helper::textEntry('Enter new last name (' .
+        $this->patients[$ol]->lastName = Helper::validateNoNumericals('Enter new last name (' .
             $this->patients[$ol]->lastName
             .'): ', $this->patients[$ol]->lastName);
         $this->patients[$ol]->address = Helper::textEntry('Enter new address (' .
@@ -555,8 +555,8 @@ class Start2
     private function addDoctor()
     {
         $o = new stdClass();
-        $o->firstName = Helper::textEntry('Enter first name: ');
-        $o->lastName = Helper::textEntry('Enter last name: ');
+        $o->firstName = Helper::validateNoNumericals('Enter first name: ');
+        $o->lastName = Helper::validateNoNumericals('Enter last name: ');
         $o->specialization = Helper::textEntry('Enter specialization: ');
         $o->oib = Helper::validateOIB('Enter oib: ');
         $o->department_id = Helper::textEntry('Enter department id: ');
@@ -619,7 +619,7 @@ class Start2
     private function addDepartment()
     {
         $d = new stdClass();
-        $d->departmentName = Helper::textEntry('Enter departments name: ');
+        $d->departmentName = Helper::validateNoNumericals('Enter departments name: ');
         $d->numberOfRooms = Helper::textEntry('Enter number of rooms: ');
 
 
@@ -654,7 +654,7 @@ class Start2
         $this->viewDepartments(false);
         $ol = Helper::maxRange('Pick a department to update: ', 1, count($this->departments));
         $ol--;
-        $this->departments[$ol]->departmentName = Helper::textEntry('Enter new department name (' .
+        $this->departments[$ol]->departmentName = Helper::validateNoNumericals('Enter new department name (' .
             $this->departments[$ol]->departmentName
             .'): ', $this->departments[$ol]->departmentName);
         $this->departments[$ol]->numberOfRooms = Helper::textEntry('Enter total number of rooms (' .
@@ -692,7 +692,7 @@ class Start2
     {
         $m = new stdClass();
         $m->date = Helper::textEntry('Enter the date of the doctors visit: ');
-        $m->diagnosis = Helper::textEntry('Enter patients diagnosis: ');
+        $m->diagnosis = Helper::validateNoNumericals('Enter patients diagnosis: ');
         $m->patient_id = Helper::textEntry('Enter patients id: ');
 
 
@@ -734,7 +734,7 @@ class Start2
         $this->medicalRecords[$ol]->patient_id = Helper::textEntry('Enter new department date (' .
             $this->medicalRecords[$ol]->date
             .'): ', $this->medicalRecords[$ol]->date);
-        $this->medicalRecords[$ol]->diagnosis = Helper::textEntry('Enter updated diagnosis (' .
+        $this->medicalRecords[$ol]->diagnosis = Helper::validateNoNumericals('Enter updated diagnosis (' .
             $this->medicalRecords[$ol]->diagnosis
             .'): ', $this->medicalRecords[$ol]->diagnosis);
         echo '                                          ' . PHP_EOL;
