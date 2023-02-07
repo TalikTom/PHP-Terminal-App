@@ -620,7 +620,7 @@ class Start2
     {
         $d = new stdClass();
         $d->departmentName = Helper::validateNoNumericals('Enter departments name: ');
-        $d->numberOfRooms = Helper::textEntry('Enter number of rooms: ');
+        $d->numberOfRooms = Helper::validateOnlyNumericals('Enter number of rooms: ');
 
 
 

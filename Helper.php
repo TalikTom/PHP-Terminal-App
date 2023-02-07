@@ -115,6 +115,27 @@ class Helper
         }
     }
 
+    public static function validateOnlyNumericals($message, $value = '')
+    {
+        while (true) {
+            $s = readline($message);
+            $s = trim($s);
+            if (strlen($s) === 0 && $value === '') {
+                echo 'You must enter a value!' . PHP_EOL;
+                continue;
+            }
+            if (strlen($s) === 0 && $value !== '') {
+                return $value;
+            }
+            if (!Helper::containsOnlyNumbers($s)) {
+                echo 'Only numerical characters allowed, please try again.' . PHP_EOL;
+                continue;
+            }
+
+            return $s;
+        }
+    }
+
     public static function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
@@ -139,6 +160,13 @@ class Helper
             return false;
         }
         return true;
+    }
+
+    public static function containsOnlyNumbers($input) {
+        if (preg_match("/^[0-9]+$/", $input)) {
+            return true;
+        }
+        return false;
     }
 
 //    public static function validateDate($date, $format = 'Y-m-d H:i:s')
