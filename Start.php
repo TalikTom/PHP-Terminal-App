@@ -657,7 +657,7 @@ class Start2
         $this->departments[$ol]->departmentName = Helper::validateNoNumericals('Enter new department name (' .
             $this->departments[$ol]->departmentName
             .'): ', $this->departments[$ol]->departmentName);
-        $this->departments[$ol]->numberOfRooms = Helper::textEntry('Enter total number of rooms (' .
+        $this->departments[$ol]->numberOfRooms = Helper::validateOnlyNumericals('Enter total number of rooms (' .
             $this->departments[$ol]->numberOfRooms
             .'): ', $this->departments[$ol]->numberOfRooms);
         echo '                                          ' . PHP_EOL;
