@@ -474,7 +474,7 @@ class Start2
         $p->lastName = Helper::validateNoNumericals('Enter last name of the patient: ');
         $p->address = Helper::textEntry('Enter patients address: ');
         $p->oib = Helper::validateOIB('Enter patients oib: ');
-        $p->doctor_id = Helper::textEntry('Enter doctors ID: ');
+        $p->doctor_id = Helper::validateOnlyNumericals('Enter doctors ID: ');
 
 
         $this->patients[] = $p;
@@ -521,7 +521,7 @@ class Start2
         $this->patients[$ol]->oib = Helper::validateOIB('Enter new oib (' .
             $this->patients[$ol]->oib
             .'): ', $this->patients[$ol]->oib);
-        $this->patients[$ol]->doctor_id = Helper::textEntry('Enter new doctor id (' .
+        $this->patients[$ol]->doctor_id = Helper::validateOnlyNumericals('Enter new doctor id (' .
             $this->patients[$ol]->doctor_id
             .'): ', $this->patients[$ol]->doctor_id);
         echo '                                          ' . PHP_EOL;
@@ -557,9 +557,9 @@ class Start2
         $o = new stdClass();
         $o->firstName = Helper::validateNoNumericals('Enter first name: ');
         $o->lastName = Helper::validateNoNumericals('Enter last name: ');
-        $o->specialization = Helper::textEntry('Enter specialization: ');
+        $o->specialization = Helper::validateNoNumericals('Enter specialization: ');
         $o->oib = Helper::validateOIB('Enter oib: ');
-        $o->department_id = Helper::textEntry('Enter department id: ');
+        $o->department_id = Helper::validateOnlyNumericals('Enter department id: ');
 
         $o->patients=[];
         while(true){
@@ -691,9 +691,9 @@ class Start2
     private function addMedicalRecord()
     {
         $m = new stdClass();
-        $m->date = Helper::textEntry('Enter the date of the doctors visit: ');
+        $m->date = Helper::validateDate('Enter the date of the doctors visit: ');
         $m->diagnosis = Helper::validateNoNumericals('Enter patients diagnosis: ');
-        $m->patient_id = Helper::textEntry('Enter patients id: ');
+        $m->patient_id = Helper::validateOnlyNumericals('Enter patients id: ');
 
 
 
@@ -728,10 +728,10 @@ class Start2
         $this->viewMedicalRecords(false);
         $ol = Helper::maxRange('Pick a medical record to update: ', 1, count($this->medicalRecords));
         $ol--;
-        $this->medicalRecords[$ol]->patient_id = Helper::textEntry('Enter new patients id (' .
+        $this->medicalRecords[$ol]->patient_id = Helper::validateOnlyNumericals('Enter new patients id (' .
             $this->medicalRecords[$ol]->patient_id
             .'): ', $this->medicalRecords[$ol]->patient_id);
-        $this->medicalRecords[$ol]->patient_id = Helper::textEntry('Enter new department date (' .
+        $this->medicalRecords[$ol]->patient_id = Helper::validateDate('Enter new department date (' .
             $this->medicalRecords[$ol]->date
             .'): ', $this->medicalRecords[$ol]->date);
         $this->medicalRecords[$ol]->diagnosis = Helper::validateNoNumericals('Enter updated diagnosis (' .
