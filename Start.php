@@ -5,7 +5,7 @@ include_once 'Helper.php';
 class Start2
 {
 
-    private $appointments;
+    private $visitors;
     private $visitations;
     private $patients;
     private $doctors;
@@ -14,7 +14,7 @@ class Start2
 
     public function __construct()
     {
-        $this->appointments = [];
+        $this->visitors = [];
         $this->visitations = [];
         $this->patients = [];
         $this->doctors = [];
@@ -26,14 +26,22 @@ class Start2
 
     public function getMessage()
     {
-        echo 'Greetings, welcome to the Voyager hospital' . PHP_EOL;
+        echo PHP_EOL;
+        echo 'Greetings, welcome to the: ' . PHP_EOL;
         echo '                                         ' . PHP_EOL;
-        echo ' _   ______  __  ______ _____ ____  _____' . PHP_EOL;
+        echo ' _   ______  __  __ ___  ____  ___  _____' . PHP_EOL;
         echo '| | / / __ \/ / / / __ `/ __ `/ _ \/ ___/' . PHP_EOL;
         echo '| |/ / /_/ / /_/ / /_/ / /_/ /  __/ /    ' . PHP_EOL;
         echo '|___/\____/\__, /\__,_/\__, /\___/_/     ' . PHP_EOL;
         echo '          /____/      /____/             ' . PHP_EOL;
         echo '                                         ' . PHP_EOL;
+        echo '    __                       __        __'. PHP_EOL;
+        echo '   / /_  ____  _________  _ / /_____ _/ /'. PHP_EOL;
+        echo '  / __ \/ __ \/ ___/ __ \/ / __/ __ `/ / '. PHP_EOL;
+        echo ' / / / / /_/ (__  ) /_/ / / /_/ /_/ / /  '. PHP_EOL;
+        echo '/_/ /_/\____/____/ .___/_/\__/\__,_/_/   '. PHP_EOL;
+        echo '                /_/                      '. PHP_EOL;
+        echo PHP_EOL;
 
     }
 
@@ -42,7 +50,7 @@ class Start2
         echo PHP_EOL;
         echo 'This is the main menu, choose an option: ' . PHP_EOL;
         echo PHP_EOL;
-        echo '1. Visitor appointments menu' . PHP_EOL;
+        echo '1. Visitors menu' . PHP_EOL;
         echo '2. Visitation records menu' . PHP_EOL;
         echo '3. Patients menu' . PHP_EOL;
         echo '4. Doctors menu' . PHP_EOL;
@@ -58,7 +66,7 @@ class Start2
     {
         switch (Helper::maxRange('Choose an option: ', 1, 7)) {
             case 1:
-                $this->displayAppointmentsMenu();
+                $this->displayVisitorsMenu();
                 break;
             case 2:
                 $this->displayVisitationsRecordsMenu();
@@ -100,41 +108,41 @@ class Start2
         }
     }
 
-    private function displayAppointmentsMenu()
+    private function displayVisitorsMenu()
     {
         echo PHP_EOL;
-        echo 'Visitor appointments menu:' . PHP_EOL;
+        echo 'Visitor menu:' . PHP_EOL;
         echo PHP_EOL;
-        echo '1. View appointments' . PHP_EOL;
-        echo '2. Add new appointment' . PHP_EOL;
-        echo '3. Update existing appointment' . PHP_EOL;
-        echo '4. Delete appointments' . PHP_EOL;
+        echo '1. View visitors' . PHP_EOL;
+        echo '2. Add new visitor' . PHP_EOL;
+        echo '3. Update existing visitor' . PHP_EOL;
+        echo '4. Delete visitors' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
         echo PHP_EOL;
-        $this->choosingOptionAppointmentMenu();
+        $this->choosingOptionVisitorsMenu();
     }
 
-    private function choosingOptionAppointmentMenu()
+    private function choosingOptionVisitorsMenu()
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewAppointments();
+                $this->viewVisitors();
                 break;
             case 2:
-                $this->addAppointment();
+                $this->addVisitors();
                 break;
             case 3:
-                $this->updateAppointment();
+                $this->updateVisitors();
                 break;
             case 4:
-                $this->deleteAppointment();
+                $this->deleteVisitors();
                 break;
 
             case 5:
                 $this->displayMainMenu();
                 break;
             default:
-                $this->displayAppointmentsMenu();
+                $this->displayVisitorsMenu();
         }
     }
 
@@ -321,29 +329,33 @@ class Start2
         }
     }
 
-    private function viewAppointments($displayAppointments = true)
+    private function viewVisitors($displayAppointments = true)
     {
         echo '--------------------' . PHP_EOL;
-        echo 'Current appointments' . PHP_EOL;
+        echo 'Current visitors' . PHP_EOL;
         $ol = 1;
-        foreach ($this->appointments as $appointment) {
-            echo $ol++ . '. ' . $appointment->date . ' ' . $appointment->time . PHP_EOL;
+        foreach ($this->visitors as $visitor) {
+            echo $ol++ . '. ' . $visitor->firstName . ' ' . $visitor->lastName . ' || ' . $visitor->address . ' ' . $visitor->phoneNumber . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
         if ($displayAppointments) {
-            $this->displayAppointmentsMenu();
+            $this->displayVisitorsMenu();
         }
 
 
     }
 
-    private function addAppointment()
+    private function addVisitors()
     {
         $s = new stdClass();
-        $s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
-        $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');
+        $s->firstName = Helper::validateNoNumericals('Enter first name: ');
+        $s->lastName = Helper::validateNoNumericals('Enter last name: ');
+        $s->address = Helper::textEntry('Enter address: ');
+        $s->phoneNumber = Helper::validateOnlyNumericals('Enter phone number: ');
+        /*$s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
+        $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');*/
 
-        $this->appointments[] = $s;
+        $this->visitors[] = $s;
         echo '                                ' . PHP_EOL;
         echo '             __    __         __' . PHP_EOL;
         echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
@@ -351,16 +363,16 @@ class Start2
         echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
         echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
         echo '                                ' . PHP_EOL;
-        $this->displayAppointmentsMenu();
+        $this->displayVisitorsMenu();
 
     }
 
-    private function deleteAppointment()
+    private function deleteVisitors()
     {
-        $this->viewAppointments(false);
-        $ol = Helper::maxRange('Pick an appointment to delete: ', 1, count($this->appointments));
+        $this->viewVisitors(false);
+        $ol = Helper::maxRange('Pick a visitor to delete: ', 1, count($this->visitors));
         $ol--;
-        array_splice($this->appointments, $ol, 1);
+        array_splice($this->visitors, $ol, 1);
         echo '                                    ' . PHP_EOL;
         echo '       __     __     __           __' . PHP_EOL;
         echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
@@ -369,20 +381,26 @@ class Start2
         echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
         echo '                                    ' . PHP_EOL;
 
-        $this->displayAppointmentsMenu();
+        $this->displayVisitorsMenu();
     }
 
-    private function updateAppointment()
+    private function updateVisitors()
     {
-        $this->viewAppointments(false);
-        $ol = Helper::maxRange('Pick an appointment to update: ', 1, count($this->appointments));
+        $this->viewVisitors(false);
+        $ol = Helper::maxRange('Pick a visitor to update: ', 1, count($this->visitors));
         $ol--;
-        $this->appointments[$ol]->date = Helper::validateDateInput('Enter new date (' .
-            $this->appointments[$ol]->date
-            .'): ', $this->appointments[$ol]->date);
-        $this->appointments[$ol]->time = Helper::validateTimeInput('Enter new time (' .
-            $this->appointments[$ol]->time
-            .'): ', $this->appointments[$ol]->time);
+        $this->visitors[$ol]->firstName = Helper::validateNoNumericals('Enter new first name (' .
+            $this->visitors[$ol]->firstName
+            .'): ', $this->visitors[$ol]->firstName);
+        $this->visitors[$ol]->lastName = Helper::validateNoNumericals('Enter new last name (' .
+            $this->visitors[$ol]->lastName
+            .'): ', $this->visitors[$ol]->lastName);
+        $this->visitors[$ol]->address = Helper::textEntry('Enter new address (' .
+            $this->visitors[$ol]->address
+            .'): ', $this->visitors[$ol]->address);
+        $this->visitors[$ol]->phoneNumber = Helper::validateOnlyNumericals('Enter new phone number (' .
+            $this->visitors[$ol]->phoneNumber
+            .'): ', $this->visitors[$ol]->phoneNumber);
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
@@ -391,14 +409,14 @@ class Start2
         echo '\__,_/ .___/\__,_/\__,_/\__/\___/\__,_/   ' . PHP_EOL;
         echo '    /_/                                   ' . PHP_EOL;
         echo '                                          ' . PHP_EOL;
-        $this->displayAppointmentsMenu();
+        $this->displayVisitorsMenu();
 
     }
 
     private function viewVisitations($displayVisitations = true)
     {
         echo '--------------------' . PHP_EOL;
-        echo 'Current appointments' . PHP_EOL;
+        echo 'Current visitors' . PHP_EOL;
         $ol = 1;
         foreach ($this->visitations as $visitation) {
             echo $ol++ . '. ' . $visitation->date . ' ' . $visitation->time . PHP_EOL;
