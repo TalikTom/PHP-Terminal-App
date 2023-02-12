@@ -250,6 +250,12 @@ class Start2
             case 2:
                 $this->addDoctor();
                 break;
+            case 3:
+                $this->updateDoctor();
+                break;
+            case 4:
+                $this->deleteDoctor();
+                break;
 
             case 5:
                 $this->displayMainMenu();
@@ -450,32 +456,20 @@ class Start2
             $this->viewPatients(false);
             $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
             $rb--;
-            if (!in_array($this->patients[$rb], $s->patients)) {
-                $s->patients[] = $this->patients[$rb];
-            } else {
-                echo 'You already selected this patient!' . PHP_EOL;
 
-            }
+            $s->patients[] = $this->patients[$rb];
+            break;
 
-            if (Helper::maxRange('1 to continue, 0 to end: ', 0, 1) === 0) {
-                break;
-            }
         }
         $s->visitors = [];
         while (true) {
             $this->viewVisitors(false);
             $rb = Helper::maxRange('Choose a visitor: ', 1, count($this->visitors));
             $rb--;
-            if (!in_array($this->visitors[$rb], $s->visitors)) {
-                $s->visitors[] = $this->visitors[$rb];
-            } else {
-                echo 'You already selected this visitor!' . PHP_EOL;
 
-            }
+            $s->visitors[] = $this->visitors[$rb];
+            break;
 
-            if (Helper::maxRange('1 to continue, 0 to end: ', 0, 1) === 0) {
-                break;
-            }
         }
 
 
@@ -524,8 +518,7 @@ class Start2
         $rb1 = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
         $rb1--;
         $this->visitations[$rb]->patient = $this->patients[$rb1];
-        print_r($this->visitations[$rb]->patient) . PHP_EOL;
-        print_r($this->patients[$rb1]) . PHP_EOL;
+
 
 
         $this->viewVisitors(false);
@@ -636,23 +629,15 @@ class Start2
         $o->lastName = Helper::validateNoNumericals('Enter last name: ');
         $o->specialization = Helper::validateNoNumericals('Enter specialization: ');
         $o->oib = Helper::validateOIB('Enter oib: ');
-        $o->department_id = Helper::validateOnlyNumericals('Enter department id: ');
 
-        $o->patients = [];
+
         while (true) {
-            $this->viewPatients(false);
-            $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+            $this->viewDepartments(false);
+            $rb = Helper::maxRange('Choose a department: ', 1, count($this->departments));
             $rb--;
-            if (!in_array($this->patients[$rb], $o->patients)) {
-                $o->patients[] = $this->patients[$rb];
-            } else {
-                echo 'You already selected this patient!' . PHP_EOL;
+            $o->departments[] = $this->departments[$rb];
+            break;
 
-            }
-
-            if (Helper::maxRange('1 to continue, 0 to end: ', 0, 1) === 0) {
-                break;
-            }
         }
 
 
@@ -660,6 +645,59 @@ class Start2
         $this->displayDoctorsMenu();
 
     }
+
+    private function updateDoctor()
+    {
+        $this->viewDoctors(false);
+        $rb = Helper::maxRange('Pick a doctor to update: ', 1, count($this->doctors));
+        $rb--;
+        $this->doctors[$rb]->firstName = Helper::validateNoNumericals('Enter new first name (' .
+            $this->doctors[$rb]->firstName
+            . '): ', $this->doctors[$rb]->firstName);
+        $this->doctors[$rb]->lastName = Helper::validateNoNumericals('Enter new last name (' .
+            $this->doctors[$rb]->lastName
+            . '): ', $this->doctors[$rb]->lastName);
+        $this->doctors[$rb]->specialization = Helper::validateNoNumericals('Enter new specialization (' .
+            $this->doctors[$rb]->specialization
+            . '): ', $this->doctors[$rb]->specialization);
+        $this->doctors[$rb]->oib = Helper::validateOnlyNumericals('Enter new oib (' .
+            $this->doctors[$rb]->oib
+            . '): ', $this->doctors[$rb]->oib);
+
+        $this->viewDepartments(false);
+        $rb1 = Helper::maxRange('Choose a department: ', 1, count($this->departments));
+        $rb1--;
+        $this->departments[$rb] = $this->departments[$rb1];
+
+
+        echo '                                          ' . PHP_EOL;
+        echo '                   __      __           __' . PHP_EOL;
+        echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
+        echo ' / / / / __ \/ __  / __ `/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ / /_/ / /_/ / /_/ / /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/ .___/\__,_/\__,_/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '    /_/                                   ' . PHP_EOL;
+        echo '                                          ' . PHP_EOL;
+        $this->displayDoctorsMenu();
+    }
+
+    private function deleteDoctor()
+    {
+        $this->viewDoctors(false);
+        $ol = Helper::maxRange('Pick a doctor to delete: ', 1, count($this->doctors));
+        $ol--;
+        array_splice($this->doctors, $ol, 1);
+        echo '                                    ' . PHP_EOL;
+        echo '       __     __     __           __' . PHP_EOL;
+        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
+        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '                                    ' . PHP_EOL;
+
+        $this->displayDoctorsMenu();
+    }
+
 
     private function viewDoctors($displayDoctors = true)
     {
@@ -679,12 +717,9 @@ class Start2
         echo 'Doctors: ' . PHP_EOL;
         $rb = 1;
         foreach ($this->doctors as $v) {
-            echo $rb++ . '. ' . $v->firstName .
-                '  ' . count($v->patients)
-                . ' patients' . PHP_EOL;
-            $rbp = 0;
-            foreach ($v->patients as $p) {
-                echo "\t" . ++$rbp . '. ' . $p->firstName . ' ' . $p->lastName . PHP_EOL;
+            echo $rb++ . '. ' . $v->firstName . ' ' . $v->lastName . ' || ' . $v->specialization . ' OIB: ' . $v->oib . PHP_EOL;
+                      foreach ($v->departments as $p) {
+                echo "\t" . 'Department: ' . $p->departmentName . PHP_EOL;
             }
         }
         echo '--------------------' . PHP_EOL;
@@ -839,10 +874,21 @@ class Start2
 
         $this->displayMedicalRecordsMenu();
     }
+
     private function testData()
     {
-        $this->patients[] = $this->createPatient('Meho', 'Puzic', 'Tome Zdravkovica 30', 12345678912, 1);
-        $this->patients[] = $this->createPatient('Berka', 'Berishevic', 'Serifa Konjevica 20', 12345678912, 1);
+        $this->patients[] = $this->createPatient('Meho', 'Puzic', 'Tome Zdravkovica 30', '12345678912', 1);
+        $this->patients[] = $this->createPatient('Berka', 'Berishevic', 'Serifa Konjevica 20', '12345678912', 1);
+
+        $this->visitors[] = $this->createVisitor('Himzo', 'Polovina', 'Arsena Dedica 600', 12345678912);
+        $this->visitors[] = $this->createVisitor('Kicho', 'Slabinac', 'Serifa Konjevica 20', 12345678912);
+
+        $this->departments[] = $this->createDepartment('Kardiologija', 20);
+        $this->departments[] = $this->createDepartment('Psihijatrija', 10);
+
+//        $this->doctors[] = $this->createDoctor('Mladen', 'Grdovic', 'Psihijatar', 12345678912);
+
+
 
 
     }
@@ -857,6 +903,43 @@ class Start2
         $s->doctor_id = $doctor_id;
         return $s;
     }
+
+    private function createVisitor($firstName, $lastName, $address, $phoneNumber)
+    {
+        $s = new stdClass();
+        $s->firstName = $firstName;
+        $s->lastName = $lastName;
+        $s->address = $address;
+        $s->phoneNumber = $phoneNumber;
+
+        return $s;
+    }
+
+    public function createDepartment($departmentName, $numberOfRooms)
+    {
+        $s = new stdClass();
+        $s->departmentName = $departmentName;
+        $s->numberOfRooms = $numberOfRooms;
+
+
+
+        return $s;
+    }
+
+    private function createDoctor($firstName, $lastName, $specialization, $oib, $department)
+    {
+        $s = new stdClass();
+        $s->firstName = $firstName;
+        $s->lastName = $lastName;
+        $s->specialization = $specialization;
+        $s->oib = $oib;
+        $s->departmentName = $department->departmentName;
+
+
+
+        return $s;
+    }
+
 
 //    private function testData(){
 //
