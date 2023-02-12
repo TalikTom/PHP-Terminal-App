@@ -22,6 +22,7 @@ class Start2
         $this->medicalRecords = [];
         $this->getMessage();
         $this->displayMainMenu();
+        $this->testData();
     }
 
     public function getMessage()
@@ -420,6 +421,7 @@ class Start2
         $ol = 1;
         foreach ($this->visitations as $visitation) {
             echo $ol++ . '. ' . $visitation->date . ' ' . $visitation->time . PHP_EOL;
+
             foreach ($visitation->patients as $p) {
                 echo 'Patient: ' . $p->firstName . ' ' . $p->lastName . PHP_EOL;
             }
@@ -505,23 +507,27 @@ class Start2
     private function updateVisitation()
     {
         $this->viewVisitations(false);
-        $ol = Helper::maxRange('Pick a visitation to update: ', 1, count($this->visitations));
-        $ol--;
-        $this->visitations[$ol]->date = Helper::validateDateInput('Enter new date (' .
-            $this->visitations[$ol]->date
-            . '): ', $this->visitations[$ol]->date);
-        $this->visitations[$ol]->time = Helper::validateTimeInput('Enter new time (' .
-            $this->visitations[$ol]->time
-            . '): ', $this->visitations[$ol]->time);
-        $this->viewPatients(false);
-        $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+        $rb = Helper::maxRange('Pick a visitation to update: ', 1, count($this->visitations));
         $rb--;
-        $this->visitations[$ol]->patient = $this->patients[$rb];
+        $this->visitations[$rb]->date = Helper::validateDateInput('Enter new date (' .
+            $this->visitations[$rb]->date
+            . '): ', $this->visitations[$rb]->date);
+        $this->visitations[$rb]->time = Helper::validateTimeInput('Enter new time (' .
+            $this->visitations[$rb]->time
+            . '): ', $this->visitations[$rb]->time);
+
+        $this->viewPatients(false);
+        $rb1 = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+        $rb1--;
+        $this->visitations[$rb]->patient = $this->patients[$rb1];
+        print_r($this->visitations[$rb]->patient) . PHP_EOL;
+        print_r($this->patients[$rb1]) . PHP_EOL;
+
 
         $this->viewVisitors(false);
         $rb2 = Helper::maxRange('Choose a visitor: ', 1, count($this->visitors));
         $rb2--;
-        $this->visitations[$ol]->visitor = $this->visitors[$rb2];
+        $this->visitations[$rb]->visitor = $this->visitors[$rb2];
 
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
@@ -829,6 +835,41 @@ class Start2
         echo '                                    ' . PHP_EOL;
 
         $this->displayMedicalRecordsMenu();
+    }
+
+    private function createPatient($firstName,$lastName,$address,$oib,$doctor_id){
+        $o = new stdClass();
+        $o->firstName=$firstName;
+        $o->lastName=$lastName;
+        $o->address=$address;
+        $o->oib=$oib;
+        $o->doctor_id=$doctor_id;
+
+        return $o;
+    }
+
+    private function createVisitor($firstName,$lastName,$address,$phoneNumber){
+        $o = new stdClass();
+        $o->firstName=$firstName;
+        $o->lastName=$lastName;
+        $o->address=$address;
+        $o->phoneNumber=$phoneNumber;
+
+
+        return $o;
+    }
+
+    private function testData(){
+        $this->patients[]=$this->createPatient('Mila','Agic', 'Marka Marulica 98', 12312312312, 1);
+        $this->patients[]=$this->createPatient('Lisa','Agic', 'Marka Marulica 98', 12312312312, 1);
+
+
+        $this->visitors[]=$this->createVisitor('Luka','Agic', 'Ivana Gundulica 12', 1665498);
+        $this->visitors[]=$this->createVisitor('Jona','Agic', 'Ivana Gundulica 12', 1665498);
+
+
+
+
     }
 
 }
