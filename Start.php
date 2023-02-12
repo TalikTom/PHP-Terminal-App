@@ -904,15 +904,21 @@ class Start
         $this->viewMedicalRecords(false);
         $ol = Helper::maxRange('Pick a medical record to update: ', 1, count($this->medicalRecords));
         $ol--;
-        $this->medicalRecords[$ol]->patient_id = Helper::validateOnlyNumericals('Enter new patients id (' .
-            $this->medicalRecords[$ol]->patient_id
-            . '): ', $this->medicalRecords[$ol]->patient_id);
-        $this->medicalRecords[$ol]->patient_id = Helper::validateDate('Enter new department date (' .
+        $this->medicalRecords[$ol]->date = Helper::validateDateInput('Enter new medical record date (' .
             $this->medicalRecords[$ol]->date
             . '): ', $this->medicalRecords[$ol]->date);
         $this->medicalRecords[$ol]->diagnosis = Helper::validateNoNumericals('Enter updated diagnosis (' .
             $this->medicalRecords[$ol]->diagnosis
             . '): ', $this->medicalRecords[$ol]->diagnosis);
+
+
+        $this->viewPatients(false);
+        $rb2 = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+        $rb2--;
+        $this->medicalRecords[$ol]->patient = $this->patients[$rb2];
+//        print_r($this->medicalRecords[$ol]->patient);
+//        print_r($this->patients[$rb2]);
+
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
