@@ -630,9 +630,12 @@ class Start
         $this->patients[$ol]->oib = Helper::validateOIB('Enter new oib (' .
             $this->patients[$ol]->oib
             . '): ', $this->patients[$ol]->oib);
-        $this->patients[$ol]->doctor_id = Helper::validateOnlyNumericals('Enter new doctor id (' .
-            $this->patients[$ol]->doctor_id
-            . '): ', $this->patients[$ol]->doctor_id);
+
+        $this->viewDoctors(false);
+        $rb2 = Helper::maxRange('Choose a patient: ', 1, count($this->doctors));
+        $rb2--;
+        $this->patients[$ol]->doctor = $this->doctors[$rb2];
+
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
@@ -732,7 +735,7 @@ class Start
         $this->viewDepartments(false);
         $rb1 = Helper::maxRange('Choose a department: ', 1, count($this->departments));
         $rb1--;
-        $this->departments[$rb] = $this->departments[$rb1];
+        $this->doctors[$rb]->department = $this->departments[$rb1];
 
 
         echo '                                          ' . PHP_EOL;
@@ -959,8 +962,8 @@ class Start
 
     private function testData()
     {
-        $this->patients[] = $this->createPatient('Meho', 'Puzic', 'Tome Zdravkovica 30', '12345678912', 1);
-        $this->patients[] = $this->createPatient('Berka', 'Berishevic', 'Serifa Konjevica 20', '12345678912', 1);
+        $this->patients[] = $this->createPatient('Meho', 'Puzic', 'Tome Zdravkovica 30', '12345678912');
+        $this->patients[] = $this->createPatient('Berka', 'Berishevic', 'Serifa Konjevica 20', '12345678912');
 
         $this->visitors[] = $this->createVisitor('Himzo', 'Polovina', 'Arsena Dedica 600', 12345678912);
         $this->visitors[] = $this->createVisitor('Kicho', 'Slabinac', 'Serifa Konjevica 20', 12345678912);
@@ -971,14 +974,14 @@ class Start
 
     }
 
-    private function createPatient($firstName, $lastName, $address, $oib, $doctor_id)
+    private function createPatient($firstName, $lastName, $address, $oib)
     {
         $s = new stdClass();
         $s->firstName = $firstName;
         $s->lastName = $lastName;
         $s->address = $address;
         $s->oib = $oib;
-        $s->doctor_id = $doctor_id;
+
 
         return $s;
     }
