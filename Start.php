@@ -2,7 +2,7 @@
 
 include_once 'Helper.php';
 
-class Start2
+class Start
 {
 
     private $visitors;
@@ -859,7 +859,9 @@ class Start2
         echo 'Medical records: ' . PHP_EOL;
         $ol = 1;
         foreach ($this->medicalRecords as $medicalRecord) {
-            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . '||' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
+            echo $ol++ . '. ' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL . '    '. 'Patient: ' . $medicalRecord->patients[0]->firstName . ' ' . $medicalRecord->patients[0]->lastName . PHP_EOL;
+
+
         }
         echo '--------------------' . PHP_EOL;
         if ($displayMedicalRecords) {
@@ -872,9 +874,17 @@ class Start2
     private function addMedicalRecord()
     {
         $m = new stdClass();
-        $m->date = Helper::validateDate('Enter the date of the doctors visit: ');
+        $m->date = Helper::validateDateInput('Enter the date of the doctors visit (yyyy-mm-dd): ');
         $m->diagnosis = Helper::validateNoNumericals('Enter patients diagnosis: ');
-        $m->patient_id = Helper::validateOnlyNumericals('Enter patients id: ');
+
+        while (true) {
+            $this->viewPatients(false);
+            $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+            $rb--;
+            $m->patients[] = $this->patients[$rb];
+            break;
+
+        }
 
 
         $this->medicalRecords[] = $m;
@@ -1009,4 +1019,4 @@ class Start2
 
 }
 
-new Start2;
+new Start;
