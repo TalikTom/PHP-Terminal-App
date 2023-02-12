@@ -35,12 +35,12 @@ class Start2
         echo '|___/\____/\__, /\__,_/\__, /\___/_/     ' . PHP_EOL;
         echo '          /____/      /____/             ' . PHP_EOL;
         echo '                                         ' . PHP_EOL;
-        echo '    __                       __        __'. PHP_EOL;
-        echo '   / /_  ____  _________  _ / /_____ _/ /'. PHP_EOL;
-        echo '  / __ \/ __ \/ ___/ __ \/ / __/ __ `/ / '. PHP_EOL;
-        echo ' / / / / /_/ (__  ) /_/ / / /_/ /_/ / /  '. PHP_EOL;
-        echo '/_/ /_/\____/____/ .___/_/\__/\__,_/_/   '. PHP_EOL;
-        echo '                /_/                      '. PHP_EOL;
+        echo '    __                       __        __' . PHP_EOL;
+        echo '   / /_  ____  _________  _ / /_____ _/ /' . PHP_EOL;
+        echo '  / __ \/ __ \/ ___/ __ \/ / __/ __ `/ / ' . PHP_EOL;
+        echo ' / / / / /_/ (__  ) /_/ / / /_/ /_/ / /  ' . PHP_EOL;
+        echo '/_/ /_/\____/____/ .___/_/\__/\__,_/_/   ' . PHP_EOL;
+        echo '                /_/                      ' . PHP_EOL;
         echo PHP_EOL;
 
     }
@@ -51,7 +51,7 @@ class Start2
         echo 'This is the main menu, choose an option: ' . PHP_EOL;
         echo PHP_EOL;
         echo '1. Visitors menu' . PHP_EOL;
-        echo '2. Visitation records menu' . PHP_EOL;
+        echo '2. Visitation menu' . PHP_EOL;
         echo '3. Patients menu' . PHP_EOL;
         echo '4. Doctors menu' . PHP_EOL;
         echo '5. Departments menu' . PHP_EOL;
@@ -94,12 +94,12 @@ class Start2
                 echo '|___/\____/\__, /\__,_/\__, /\___/_/     ' . PHP_EOL;
                 echo '          /____/      /____/             ' . PHP_EOL;
                 echo PHP_EOL;
-                echo '    __                       __        __'. PHP_EOL;
-                echo '   / /_  ____  _________  _ / /_____ _/ /'. PHP_EOL;
-                echo '  / __ \/ __ \/ ___/ __ \/ / __/ __ `/ / '. PHP_EOL;
-                echo ' / / / / /_/ (__  ) /_/ / / /_/ /_/ / /  '. PHP_EOL;
-                echo '/_/ /_/\____/____/ .___/_/\__/\__,_/_/   '. PHP_EOL;
-                echo '                /_/                      '. PHP_EOL;
+                echo '    __                       __        __' . PHP_EOL;
+                echo '   / /_  ____  _________  _ / /_____ _/ /' . PHP_EOL;
+                echo '  / __ \/ __ \/ ___/ __ \/ / __/ __ `/ / ' . PHP_EOL;
+                echo ' / / / / /_/ (__  ) /_/ / / /_/ /_/ / /  ' . PHP_EOL;
+                echo '/_/ /_/\____/____/ .___/_/\__/\__,_/_/   ' . PHP_EOL;
+                echo '                /_/                      ' . PHP_EOL;
                 echo PHP_EOL;
                 echo '-------------Have a nice day-------------' . PHP_EOL;
                 break;
@@ -152,9 +152,9 @@ class Start2
         echo 'Visitation records menu:' . PHP_EOL;
         echo PHP_EOL;
         echo '1. View visitation records' . PHP_EOL;
-        echo '2. Add new visitation record' . PHP_EOL;
-        echo '3. Update existing visitation record' . PHP_EOL;
-        echo '4. Delete visitation record' . PHP_EOL;
+        echo '2. Add new visitation' . PHP_EOL;
+        echo '3. Update existing visitation' . PHP_EOL;
+        echo '4. Delete visitation' . PHP_EOL;
         echo '5. Back to main menu' . PHP_EOL;
         echo PHP_EOL;
         $this->choosingOptionVisitationsMenu();
@@ -391,16 +391,16 @@ class Start2
         $ol--;
         $this->visitors[$ol]->firstName = Helper::validateNoNumericals('Enter new first name (' .
             $this->visitors[$ol]->firstName
-            .'): ', $this->visitors[$ol]->firstName);
+            . '): ', $this->visitors[$ol]->firstName);
         $this->visitors[$ol]->lastName = Helper::validateNoNumericals('Enter new last name (' .
             $this->visitors[$ol]->lastName
-            .'): ', $this->visitors[$ol]->lastName);
+            . '): ', $this->visitors[$ol]->lastName);
         $this->visitors[$ol]->address = Helper::textEntry('Enter new address (' .
             $this->visitors[$ol]->address
-            .'): ', $this->visitors[$ol]->address);
+            . '): ', $this->visitors[$ol]->address);
         $this->visitors[$ol]->phoneNumber = Helper::validateOnlyNumericals('Enter new phone number (' .
             $this->visitors[$ol]->phoneNumber
-            .'): ', $this->visitors[$ol]->phoneNumber);
+            . '): ', $this->visitors[$ol]->phoneNumber);
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
@@ -420,6 +420,12 @@ class Start2
         $ol = 1;
         foreach ($this->visitations as $visitation) {
             echo $ol++ . '. ' . $visitation->date . ' ' . $visitation->time . PHP_EOL;
+            foreach ($visitation->patients as $p) {
+                echo 'Patient: ' . $p->firstName . ' ' . $p->lastName . PHP_EOL;
+            }
+            foreach ($visitation->visitors as $v) {
+                echo 'Visitor: ' . $v->firstName . ' ' . $v->lastName . PHP_EOL;
+            }
         }
         echo '--------------------' . PHP_EOL;
         if ($displayVisitations) {
@@ -432,6 +438,40 @@ class Start2
         $s = new stdClass();
         $s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
         $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');
+
+        $s->patients = [];
+        while (true) {
+            $this->viewPatients(false);
+            $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+            $rb--;
+            if (!in_array($this->patients[$rb], $s->patients)) {
+                $s->patients[] = $this->patients[$rb];
+            } else {
+                echo 'You already selected this patient!' . PHP_EOL;
+
+            }
+
+            if (Helper::maxRange('1 to continue, 0 to end: ', 0, 1) === 0) {
+                break;
+            }
+        }
+        $s->visitors = [];
+        while (true) {
+            $this->viewVisitors(false);
+            $rb = Helper::maxRange('Choose a visitor: ', 1, count($this->visitors));
+            $rb--;
+            if (!in_array($this->visitors[$rb], $s->visitors)) {
+                $s->visitors[] = $this->visitors[$rb];
+            } else {
+                echo 'You already selected this visitor!' . PHP_EOL;
+
+            }
+
+            if (Helper::maxRange('1 to continue, 0 to end: ', 0, 1) === 0) {
+                break;
+            }
+        }
+
 
         $this->visitations[] = $s;
         echo '                                ' . PHP_EOL;
@@ -469,10 +509,10 @@ class Start2
         $ol--;
         $this->visitations[$ol]->date = Helper::validateDateInput('Enter new date (' .
             $this->visitations[$ol]->date
-            .'): ', $this->visitations[$ol]->date);
+            . '): ', $this->visitations[$ol]->date);
         $this->visitations[$ol]->time = Helper::validateTimeInput('Enter new time (' .
             $this->visitations[$ol]->time
-            .'): ', $this->visitations[$ol]->time);
+            . '): ', $this->visitations[$ol]->time);
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
@@ -506,14 +546,14 @@ class Start2
         $this->displayPatientsMenu();
     }
 
-    private function viewPatients($displayPatients=true)
+    private function viewPatients($displayPatients = true)
     {
         echo '------------------------' . PHP_EOL;
         echo 'All patients' . PHP_EOL;
         $ol = 1;
         foreach ($this->patients as $patient) {
             echo '------------------------' . PHP_EOL;
-            echo $ol++ . '. ' . $patient->firstName . ' ' . $patient->lastName . PHP_EOL . $patient->address . ' ' . $patient->oib . ' ' .$patient->doctor_id . PHP_EOL;
+            echo $ol++ . '. ' . $patient->firstName . ' ' . $patient->lastName . PHP_EOL . $patient->address . ' ' . $patient->oib . ' ' . $patient->doctor_id . PHP_EOL;
 
         }
         echo '------------------------' . PHP_EOL;
@@ -529,19 +569,19 @@ class Start2
         $ol--;
         $this->patients[$ol]->firstName = Helper::validateNoNumericals('Enter new first name (' .
             $this->patients[$ol]->firstName
-            .'): ', $this->patients[$ol]->firstName);
+            . '): ', $this->patients[$ol]->firstName);
         $this->patients[$ol]->lastName = Helper::validateNoNumericals('Enter new last name (' .
             $this->patients[$ol]->lastName
-            .'): ', $this->patients[$ol]->lastName);
+            . '): ', $this->patients[$ol]->lastName);
         $this->patients[$ol]->address = Helper::textEntry('Enter new address (' .
             $this->patients[$ol]->address
-            .'): ', $this->patients[$ol]->address);
+            . '): ', $this->patients[$ol]->address);
         $this->patients[$ol]->oib = Helper::validateOIB('Enter new oib (' .
             $this->patients[$ol]->oib
-            .'): ', $this->patients[$ol]->oib);
+            . '): ', $this->patients[$ol]->oib);
         $this->patients[$ol]->doctor_id = Helper::validateOnlyNumericals('Enter new doctor id (' .
             $this->patients[$ol]->doctor_id
-            .'): ', $this->patients[$ol]->doctor_id);
+            . '): ', $this->patients[$ol]->doctor_id);
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
@@ -579,30 +619,30 @@ class Start2
         $o->oib = Helper::validateOIB('Enter oib: ');
         $o->department_id = Helper::validateOnlyNumericals('Enter department id: ');
 
-        $o->patients=[];
-        while(true){
+        $o->patients = [];
+        while (true) {
             $this->viewPatients(false);
-            $rb = Helper::maxRange('Choose a patient: ',1,count($this->patients));
+            $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
             $rb--;
-            if(!in_array($this->patients[$rb],$o->patients)){
+            if (!in_array($this->patients[$rb], $o->patients)) {
                 $o->patients[] = $this->patients[$rb];
-            }else{
+            } else {
                 echo 'You already selected this patient!' . PHP_EOL;
 
             }
 
-            if(Helper::maxRange('1 to continue, 0 to end: ',0,1)===0){
+            if (Helper::maxRange('1 to continue, 0 to end: ', 0, 1) === 0) {
                 break;
             }
         }
 
 
-        $this->doctors[]=$o;
+        $this->doctors[] = $o;
         $this->displayDoctorsMenu();
 
     }
 
-    private function viewDoctors($displayDoctors=true)
+    private function viewDoctors($displayDoctors = true)
     {
 //        echo '------------------------' . PHP_EOL;
 //        echo 'All doctors: ' . PHP_EOL;
@@ -618,18 +658,18 @@ class Start2
 //        }
         echo '--------------------' . PHP_EOL;
         echo 'Doctors: ' . PHP_EOL;
-        $rb=1;
-        foreach($this->doctors as $v){
+        $rb = 1;
+        foreach ($this->doctors as $v) {
             echo $rb++ . '. ' . $v->firstName .
                 '  ' . count($v->patients)
                 . ' patients' . PHP_EOL;
-            $rbp=0;
-            foreach($v->patients as $p){
-                echo "\t" . ++$rbp . '. '  . $p->firstName . ' ' . $p->lastName . PHP_EOL;
+            $rbp = 0;
+            foreach ($v->patients as $p) {
+                echo "\t" . ++$rbp . '. ' . $p->firstName . ' ' . $p->lastName . PHP_EOL;
             }
         }
         echo '--------------------' . PHP_EOL;
-        if($displayDoctors){
+        if ($displayDoctors) {
             $this->displayDoctorsMenu();
         }
     }
@@ -639,7 +679,6 @@ class Start2
         $d = new stdClass();
         $d->departmentName = Helper::validateNoNumericals('Enter departments name: ');
         $d->numberOfRooms = Helper::validateOnlyNumericals('Enter number of rooms: ');
-
 
 
         $this->departments[] = $d;
@@ -653,13 +692,13 @@ class Start2
         $this->displayDepartmentsMenu();
     }
 
-    private function viewDepartments($displayDepartments=true)
+    private function viewDepartments($displayDepartments = true)
     {
         echo '--------------------' . PHP_EOL;
         echo 'Current departments' . PHP_EOL;
         $ol = 1;
         foreach ($this->departments as $department) {
-            echo $ol++ . '. ' . $department->departmentName . ' ' . '|| Total rooms: '. $department->numberOfRooms . PHP_EOL;
+            echo $ol++ . '. ' . $department->departmentName . ' ' . '|| Total rooms: ' . $department->numberOfRooms . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
         if ($displayDepartments) {
@@ -674,10 +713,10 @@ class Start2
         $ol--;
         $this->departments[$ol]->departmentName = Helper::validateNoNumericals('Enter new department name (' .
             $this->departments[$ol]->departmentName
-            .'): ', $this->departments[$ol]->departmentName);
+            . '): ', $this->departments[$ol]->departmentName);
         $this->departments[$ol]->numberOfRooms = Helper::validateOnlyNumericals('Enter total number of rooms (' .
             $this->departments[$ol]->numberOfRooms
-            .'): ', $this->departments[$ol]->numberOfRooms);
+            . '): ', $this->departments[$ol]->numberOfRooms);
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
@@ -714,7 +753,6 @@ class Start2
         $m->patient_id = Helper::validateOnlyNumericals('Enter patients id: ');
 
 
-
         $this->medicalRecords[] = $m;
         echo '                                ' . PHP_EOL;
         echo '             __    __         __' . PHP_EOL;
@@ -726,13 +764,13 @@ class Start2
         $this->displayMedicalRecordsMenu();
     }
 
-    private function viewMedicalRecords($displayMedicalRecords=true)
+    private function viewMedicalRecords($displayMedicalRecords = true)
     {
         echo '--------------------' . PHP_EOL;
         echo 'Medical records: ' . PHP_EOL;
         $ol = 1;
         foreach ($this->medicalRecords as $medicalRecord) {
-            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . '||'. ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
+            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . '||' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
         if ($displayMedicalRecords) {
@@ -748,13 +786,13 @@ class Start2
         $ol--;
         $this->medicalRecords[$ol]->patient_id = Helper::validateOnlyNumericals('Enter new patients id (' .
             $this->medicalRecords[$ol]->patient_id
-            .'): ', $this->medicalRecords[$ol]->patient_id);
+            . '): ', $this->medicalRecords[$ol]->patient_id);
         $this->medicalRecords[$ol]->patient_id = Helper::validateDate('Enter new department date (' .
             $this->medicalRecords[$ol]->date
-            .'): ', $this->medicalRecords[$ol]->date);
+            . '): ', $this->medicalRecords[$ol]->date);
         $this->medicalRecords[$ol]->diagnosis = Helper::validateNoNumericals('Enter updated diagnosis (' .
             $this->medicalRecords[$ol]->diagnosis
-            .'): ', $this->medicalRecords[$ol]->diagnosis);
+            . '): ', $this->medicalRecords[$ol]->diagnosis);
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
