@@ -340,6 +340,10 @@ class Start2
         }
     }
 
+    /* -------
+    Visitor beginning
+    ---------*/
+
     private function viewVisitors($displayAppointments = true)
     {
         echo '--------------------' . PHP_EOL;
@@ -355,6 +359,7 @@ class Start2
 
 
     }
+
 
     private function addVisitors()
     {
@@ -376,23 +381,6 @@ class Start2
         echo '                                ' . PHP_EOL;
         $this->displayVisitorsMenu();
 
-    }
-
-    private function deleteVisitors()
-    {
-        $this->viewVisitors(false);
-        $ol = Helper::maxRange('Pick a visitor to delete: ', 1, count($this->visitors));
-        $ol--;
-        array_splice($this->visitors, $ol, 1);
-        echo '                                    ' . PHP_EOL;
-        echo '       __     __     __           __' . PHP_EOL;
-        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
-        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
-        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
-        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
-        echo '                                    ' . PHP_EOL;
-
-        $this->displayVisitorsMenu();
     }
 
     private function updateVisitors()
@@ -424,6 +412,33 @@ class Start2
 
     }
 
+
+    private function deleteVisitors()
+    {
+        $this->viewVisitors(false);
+        $ol = Helper::maxRange('Pick a visitor to delete: ', 1, count($this->visitors));
+        $ol--;
+        array_splice($this->visitors, $ol, 1);
+        echo '                                    ' . PHP_EOL;
+        echo '       __     __     __           __' . PHP_EOL;
+        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
+        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '                                    ' . PHP_EOL;
+
+        $this->displayVisitorsMenu();
+    }
+
+
+    /* -------
+    Visitor end
+    ---------*/
+
+    /* -------
+    Visitations beginning
+    ---------*/
+
     private function viewVisitations($displayVisitations = true)
     {
         echo '--------------------' . PHP_EOL;
@@ -444,6 +459,7 @@ class Start2
             $this->displayVisitationsRecordsMenu();
         }
     }
+
 
     private function addVisitation()
     {
@@ -485,23 +501,6 @@ class Start2
 
     }
 
-    private function deleteVisitation()
-    {
-        $this->viewVisitations(false);
-        $ol = Helper::maxRange('Pick a visitation to delete: ', 1, count($this->visitations));
-        $ol--;
-        array_splice($this->visitations, $ol, 1);
-        echo '                                    ' . PHP_EOL;
-        echo '       __     __     __           __' . PHP_EOL;
-        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
-        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
-        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
-        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
-        echo '                                    ' . PHP_EOL;
-
-        $this->displayVisitationsRecordsMenu();
-    }
-
     private function updateVisitation()
     {
         $this->viewVisitations(false);
@@ -518,7 +517,6 @@ class Start2
         $rb1 = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
         $rb1--;
         $this->visitations[$rb]->patient = $this->patients[$rb1];
-
 
 
         $this->viewVisitors(false);
@@ -538,6 +536,53 @@ class Start2
 
     }
 
+
+    private function deleteVisitation()
+    {
+        $this->viewVisitations(false);
+        $ol = Helper::maxRange('Pick a visitation to delete: ', 1, count($this->visitations));
+        $ol--;
+        array_splice($this->visitations, $ol, 1);
+        echo '                                    ' . PHP_EOL;
+        echo '       __     __     __           __' . PHP_EOL;
+        echo '  ____/ /__  / /__  / /____  ____/ /' . PHP_EOL;
+        echo ' / __  / _ \/ / _ \/ __/ _ \/ __  / ' . PHP_EOL;
+        echo '/ /_/ /  __/ /  __/ /_/  __/ /_/ /  ' . PHP_EOL;
+        echo '\__,_/\___/_/\___/\__/\___/\__,_/   ' . PHP_EOL;
+        echo '                                    ' . PHP_EOL;
+
+        $this->displayVisitationsRecordsMenu();
+    }
+
+
+    /* -------
+    Visitations end
+    ---------*/
+
+    /* -------
+    PATIENTS beginning
+    ---------*/
+
+    private function viewPatients($displayPatients = true)
+    {
+
+        echo '--------------------' . PHP_EOL;
+        echo 'Current patients: ' . PHP_EOL;
+        $rb = 1;
+        foreach ($this->patients as $p) {
+            echo $rb++ . '. ' . $p->firstName . ' ' . $p->lastName . ' || ' . $p->address . ' ' . $p->oib . ' ' . PHP_EOL;
+//            foreach ($p->doctors as $d) {
+//                echo "\t" . 'Doctor: ' . $d->firstName . ' ' . $d->lastName . ' ' . $d->specialization . PHP_EOL;
+//            }
+        }
+        echo '--------------------' . PHP_EOL;
+        if ($displayPatients) {
+            $this->displayPatientsMenu();
+        }
+
+    }
+
+
     private function addPatient()
     {
         $p = new stdClass();
@@ -545,7 +590,15 @@ class Start2
         $p->lastName = Helper::validateNoNumericals('Enter last name of the patient: ');
         $p->address = Helper::textEntry('Enter patients address: ');
         $p->oib = Helper::validateOIB('Enter patients oib: ');
-        $p->doctor_id = Helper::validateOnlyNumericals('Enter doctors ID: ');
+
+        while (true) {
+            $this->viewDoctors(false);
+            $rb = Helper::maxRange('Choose a doctor: ', 1, count($this->doctors));
+            $rb--;
+            $p->doctors[] = $this->doctors[$rb];
+            break;
+
+        }
 
 
         $this->patients[] = $p;
@@ -559,20 +612,6 @@ class Start2
         $this->displayPatientsMenu();
     }
 
-    private function viewPatients($displayPatients = true)
-    {
-
-        echo '--------------------' . PHP_EOL;
-        echo 'Current patients: ' . PHP_EOL;
-        $rb = 1;
-        foreach ($this->patients as $patient) {
-            echo $rb++ . '. ' . $patient->firstName . ' ' . $patient->lastName . PHP_EOL . $patient->address . ' ' . $patient->oib . ' ' . $patient->doctor_id . PHP_EOL;
-        }
-        echo '--------------------' . PHP_EOL;
-        if ($displayPatients) {
-            $this->displayPatientsMenu();
-        }
-    }
 
     private function updatePatient()
     {
@@ -605,6 +644,7 @@ class Start2
         $this->displayPatientsMenu();
     }
 
+
     private function deletePatient()
     {
         $this->viewPatients(false);
@@ -620,6 +660,31 @@ class Start2
         echo '                                    ' . PHP_EOL;
 
         $this->displayPatientsMenu();
+    }
+
+    /* -------
+    PATIENTS end
+    ---------*/
+
+    /* -------
+    Doctor beginning
+    ---------*/
+
+    private function viewDoctors($displayDoctors = true)
+    {
+        echo '--------------------' . PHP_EOL;
+        echo 'Doctors: ' . PHP_EOL;
+        $rb = 1;
+        foreach ($this->doctors as $v) {
+            echo $rb++ . '. ' . $v->firstName . ' ' . $v->lastName . ' || ' . $v->specialization . ' OIB: ' . $v->oib . PHP_EOL;
+            foreach ($v->departments as $p) {
+                echo "\t" . 'Department: ' . $p->departmentName . PHP_EOL;
+            }
+        }
+        echo '--------------------' . PHP_EOL;
+        if ($displayDoctors) {
+            $this->displayDoctorsMenu();
+        }
     }
 
     private function addDoctor()
@@ -698,35 +763,28 @@ class Start2
         $this->displayDoctorsMenu();
     }
 
+    /* -------
+    Doctor end
+    ---------*/
 
-    private function viewDoctors($displayDoctors = true)
+    /* -------
+    Department beginning
+    ---------*/
+
+    private function viewDepartments($displayDepartments = true)
     {
-//        echo '------------------------' . PHP_EOL;
-//        echo 'All doctors: ' . PHP_EOL;
-//        $ol = 1;
-//        foreach ($this->doctors as $doctor) {
-//            echo '------------------------' . PHP_EOL;
-//            echo $ol++ . '. ' . $doctor->firstName . ' ' . $doctor->lastName . PHP_EOL . $doctor->specialization . ' ' . $doctor->oib . ' ' .$doctor->department_id . PHP_EOL;
-//
-//        }
-//        echo '------------------------' . PHP_EOL;
-//        if ($displayDoctors) {
-//            $this->displayDoctorsMenu();
-//        }
         echo '--------------------' . PHP_EOL;
-        echo 'Doctors: ' . PHP_EOL;
-        $rb = 1;
-        foreach ($this->doctors as $v) {
-            echo $rb++ . '. ' . $v->firstName . ' ' . $v->lastName . ' || ' . $v->specialization . ' OIB: ' . $v->oib . PHP_EOL;
-                      foreach ($v->departments as $p) {
-                echo "\t" . 'Department: ' . $p->departmentName . PHP_EOL;
-            }
+        echo 'Current departments' . PHP_EOL;
+        $ol = 1;
+        foreach ($this->departments as $department) {
+            echo $ol++ . '. ' . $department->departmentName . ' ' . '|| Total rooms: ' . $department->numberOfRooms . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
-        if ($displayDoctors) {
-            $this->displayDoctorsMenu();
+        if ($displayDepartments) {
+            $this->displayDepartmentsMenu();
         }
     }
+
 
     private function addDepartment()
     {
@@ -746,19 +804,6 @@ class Start2
         $this->displayDepartmentsMenu();
     }
 
-    private function viewDepartments($displayDepartments = true)
-    {
-        echo '--------------------' . PHP_EOL;
-        echo 'Current departments' . PHP_EOL;
-        $ol = 1;
-        foreach ($this->departments as $department) {
-            echo $ol++ . '. ' . $department->departmentName . ' ' . '|| Total rooms: ' . $department->numberOfRooms . PHP_EOL;
-        }
-        echo '--------------------' . PHP_EOL;
-        if ($displayDepartments) {
-            $this->displayDepartmentsMenu();
-        }
-    }
 
     private function updateDepartment()
     {
@@ -782,6 +827,7 @@ class Start2
         $this->displayDepartmentsMenu();
     }
 
+
     private function deleteDepartment()
     {
         $this->viewDepartments(false);
@@ -798,6 +844,30 @@ class Start2
 
         $this->displayDepartmentsMenu();
     }
+
+    /* -------
+    Department end
+    ---------*/
+
+    /* -------
+    Medical Record beginning
+    ---------*/
+
+    private function viewMedicalRecords($displayMedicalRecords = true)
+    {
+        echo '--------------------' . PHP_EOL;
+        echo 'Medical records: ' . PHP_EOL;
+        $ol = 1;
+        foreach ($this->medicalRecords as $medicalRecord) {
+            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . '||' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
+        }
+        echo '--------------------' . PHP_EOL;
+        if ($displayMedicalRecords) {
+            $this->displayMedicalRecordsMenu();
+
+        }
+    }
+
 
     private function addMedicalRecord()
     {
@@ -818,20 +888,6 @@ class Start2
         $this->displayMedicalRecordsMenu();
     }
 
-    private function viewMedicalRecords($displayMedicalRecords = true)
-    {
-        echo '--------------------' . PHP_EOL;
-        echo 'Medical records: ' . PHP_EOL;
-        $ol = 1;
-        foreach ($this->medicalRecords as $medicalRecord) {
-            echo $ol++ . '. ' . 'Patients ID: ' . $medicalRecord->patient_id . ' ' . '||' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL;
-        }
-        echo '--------------------' . PHP_EOL;
-        if ($displayMedicalRecords) {
-            $this->displayMedicalRecordsMenu();
-
-        }
-    }
 
     private function updateMedicalRecord()
     {
@@ -858,6 +914,7 @@ class Start2
         $this->displayMedicalRecordsMenu();
     }
 
+
     private function deleteMedicalRecord()
     {
         $this->viewMedicalRecords(false);
@@ -875,6 +932,15 @@ class Start2
         $this->displayMedicalRecordsMenu();
     }
 
+    /* -------
+    Medical Record end
+    ---------*/
+
+    /* -------
+    Test data beginning
+    ---------*/
+
+
     private function testData()
     {
         $this->patients[] = $this->createPatient('Meho', 'Puzic', 'Tome Zdravkovica 30', '12345678912', 1);
@@ -885,10 +951,6 @@ class Start2
 
         $this->departments[] = $this->createDepartment('Kardiologija', 20);
         $this->departments[] = $this->createDepartment('Psihijatrija', 10);
-
-//        $this->doctors[] = $this->createDoctor('Mladen', 'Grdovic', 'Psihijatar', 12345678912);
-
-
 
 
     }
@@ -901,6 +963,7 @@ class Start2
         $s->address = $address;
         $s->oib = $oib;
         $s->doctor_id = $doctor_id;
+
         return $s;
     }
 
@@ -922,7 +985,6 @@ class Start2
         $s->numberOfRooms = $numberOfRooms;
 
 
-
         return $s;
     }
 
@@ -936,46 +998,12 @@ class Start2
         $s->departmentName = $department->departmentName;
 
 
-
         return $s;
     }
 
-
-//    private function testData(){
-//
-//        $this->patients[]=$this->createPatient('Mila','Agic', 'Marka Marulica 98', '12312312312', '1');
-//        $this->patients[]=$this->createPatient('Lisa','Agic', 'Marka Marulica 98', '12312312312', '1');
-//
-//
-//
-//
-//        $this->visitors[]=$this->createVisitor('Luka','Agic', 'Ivana Gundulica 12', '1665498');
-//        $this->visitors[]=$this->createVisitor('Jona','Agic', 'Ivana Gundulica 12', '1665498');
-//
-//
-//    }
-//
-//    private function createPatient($firstName,$lastName,$address,$oib,$doctor_id){
-//        $p = new stdClass();
-//        $p->firstName = $firstName;
-//        $p->lastName = $lastName;
-//        $p->address = $address;
-//        $p->oib = $oib;
-//        $p->doctor_id = $doctor_id;
-//
-//        return $p;
-//    }
-//
-//    private function createVisitor($firstName,$lastName,$address,$phoneNumber){
-//        $s = new stdClass();
-//        $s->firstName=$firstName;
-//        $s->lastName=$lastName;
-//        $s->address=$address;
-//        $s->phoneNumber=$phoneNumber;
-//
-//
-//        return $s;
-//    }
+    /* -------
+    Test data end
+    ---------*/
 
 
 
