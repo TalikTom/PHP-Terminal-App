@@ -488,7 +488,7 @@ class Start2
     private function deleteVisitation()
     {
         $this->viewVisitations(false);
-        $ol = Helper::maxRange('Pick an appointment to delete: ', 1, count($this->visitations));
+        $ol = Helper::maxRange('Pick a visitation to delete: ', 1, count($this->visitations));
         $ol--;
         array_splice($this->visitations, $ol, 1);
         echo '                                    ' . PHP_EOL;
@@ -505,7 +505,7 @@ class Start2
     private function updateVisitation()
     {
         $this->viewVisitations(false);
-        $ol = Helper::maxRange('Pick an appointment to update: ', 1, count($this->visitations));
+        $ol = Helper::maxRange('Pick a visitation to update: ', 1, count($this->visitations));
         $ol--;
         $this->visitations[$ol]->date = Helper::validateDateInput('Enter new date (' .
             $this->visitations[$ol]->date
@@ -513,6 +513,16 @@ class Start2
         $this->visitations[$ol]->time = Helper::validateTimeInput('Enter new time (' .
             $this->visitations[$ol]->time
             . '): ', $this->visitations[$ol]->time);
+        $this->viewPatients(false);
+        $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+        $rb--;
+        $this->visitations[$ol]->patient = $this->patients[$rb];
+
+        $this->viewVisitors(false);
+        $rb2 = Helper::maxRange('Choose a visitor: ', 1, count($this->visitors));
+        $rb2--;
+        $this->visitations[$ol]->visitor = $this->visitors[$rb2];
+
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
         echo '  __  ______  ____/ /___ _/ /____  ____/ /' . PHP_EOL;
