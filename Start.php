@@ -14,15 +14,18 @@ class Start2
 
     public function __construct()
     {
+
+
         $this->visitors = [];
         $this->visitations = [];
         $this->patients = [];
         $this->doctors = [];
         $this->departments = [];
         $this->medicalRecords = [];
+        $this->testData();
         $this->getMessage();
         $this->displayMainMenu();
-        $this->testData();
+
     }
 
     public function getMessage()
@@ -43,6 +46,7 @@ class Start2
         echo '/_/ /_/\____/____/ .___/_/\__/\__,_/_/   ' . PHP_EOL;
         echo '                /_/                      ' . PHP_EOL;
         echo PHP_EOL;
+
 
     }
 
@@ -564,15 +568,14 @@ class Start2
 
     private function viewPatients($displayPatients = true)
     {
-        echo '------------------------' . PHP_EOL;
-        echo 'All patients' . PHP_EOL;
-        $ol = 1;
-        foreach ($this->patients as $patient) {
-            echo '------------------------' . PHP_EOL;
-            echo $ol++ . '. ' . $patient->firstName . ' ' . $patient->lastName . PHP_EOL . $patient->address . ' ' . $patient->oib . ' ' . $patient->doctor_id . PHP_EOL;
 
+        echo '--------------------' . PHP_EOL;
+        echo 'Current patients: ' . PHP_EOL;
+        $rb = 1;
+        foreach ($this->patients as $patient) {
+            echo $rb++ . '. ' . $patient->firstName . ' ' . $patient->lastName . PHP_EOL . $patient->address . ' ' . $patient->oib . ' ' . $patient->doctor_id . PHP_EOL;
         }
-        echo '------------------------' . PHP_EOL;
+        echo '--------------------' . PHP_EOL;
         if ($displayPatients) {
             $this->displayPatientsMenu();
         }
@@ -836,41 +839,62 @@ class Start2
 
         $this->displayMedicalRecordsMenu();
     }
-
-    private function createPatient($firstName,$lastName,$address,$oib,$doctor_id){
-        $o = new stdClass();
-        $o->firstName=$firstName;
-        $o->lastName=$lastName;
-        $o->address=$address;
-        $o->oib=$oib;
-        $o->doctor_id=$doctor_id;
-
-        return $o;
-    }
-
-    private function createVisitor($firstName,$lastName,$address,$phoneNumber){
-        $o = new stdClass();
-        $o->firstName=$firstName;
-        $o->lastName=$lastName;
-        $o->address=$address;
-        $o->phoneNumber=$phoneNumber;
-
-
-        return $o;
-    }
-
-    private function testData(){
-        $this->patients[]=$this->createPatient('Mila','Agic', 'Marka Marulica 98', 12312312312, 1);
-        $this->patients[]=$this->createPatient('Lisa','Agic', 'Marka Marulica 98', 12312312312, 1);
-
-
-        $this->visitors[]=$this->createVisitor('Luka','Agic', 'Ivana Gundulica 12', 1665498);
-        $this->visitors[]=$this->createVisitor('Jona','Agic', 'Ivana Gundulica 12', 1665498);
-
-
+    private function testData()
+    {
+        $this->patients[] = $this->createPatient('Meho', 'Puzic', 'Tome Zdravkovica 30', 12345678912, 1);
+        $this->patients[] = $this->createPatient('Berka', 'Berishevic', 'Serifa Konjevica 20', 12345678912, 1);
 
 
     }
+
+    private function createPatient($firstName, $lastName, $address, $oib, $doctor_id)
+    {
+        $s = new stdClass();
+        $s->firstName = $firstName;
+        $s->lastName = $lastName;
+        $s->address = $address;
+        $s->oib = $oib;
+        $s->doctor_id = $doctor_id;
+        return $s;
+    }
+
+//    private function testData(){
+//
+//        $this->patients[]=$this->createPatient('Mila','Agic', 'Marka Marulica 98', '12312312312', '1');
+//        $this->patients[]=$this->createPatient('Lisa','Agic', 'Marka Marulica 98', '12312312312', '1');
+//
+//
+//
+//
+//        $this->visitors[]=$this->createVisitor('Luka','Agic', 'Ivana Gundulica 12', '1665498');
+//        $this->visitors[]=$this->createVisitor('Jona','Agic', 'Ivana Gundulica 12', '1665498');
+//
+//
+//    }
+//
+//    private function createPatient($firstName,$lastName,$address,$oib,$doctor_id){
+//        $p = new stdClass();
+//        $p->firstName = $firstName;
+//        $p->lastName = $lastName;
+//        $p->address = $address;
+//        $p->oib = $oib;
+//        $p->doctor_id = $doctor_id;
+//
+//        return $p;
+//    }
+//
+//    private function createVisitor($firstName,$lastName,$address,$phoneNumber){
+//        $s = new stdClass();
+//        $s->firstName=$firstName;
+//        $s->lastName=$lastName;
+//        $s->address=$address;
+//        $s->phoneNumber=$phoneNumber;
+//
+//
+//        return $s;
+//    }
+
+
 
 }
 
