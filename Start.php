@@ -131,16 +131,35 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewVisitors();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no visitors in the app --' . PHP_EOL;
+                    $this->displayVisitorsMenu();
+                } else {
+                    $this->viewVisitors();
+                }
                 break;
+
             case 2:
                 $this->addVisitors();
                 break;
             case 3:
-                $this->updateVisitors();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no visitors in the app --' . PHP_EOL;
+                    $this->displayVisitorsMenu();
+                } else {
+                    $this->updateVisitors();
+                }
                 break;
             case 4:
-                $this->deleteVisitors();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no visitors in the app --' . PHP_EOL;
+                    $this->displayVisitorsMenu();
+                } else {
+                    $this->deleteVisitors();
+                }
                 break;
 
             case 5:
@@ -169,16 +188,34 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewVisitations();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no visitations in the app --' . PHP_EOL;
+                    $this->displayVisitationsRecordsMenu();
+                } else {
+                    $this->viewVisitations();
+                }
                 break;
             case 2:
                 $this->addVisitation();
                 break;
             case 3:
-                $this->updateVisitation();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no visitations in the app --' . PHP_EOL;
+                    $this->displayVisitationsRecordsMenu();
+                } else {
+                    $this->updateVisitation();
+                }
                 break;
             case 4:
-                $this->deleteVisitation();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no visitations in the app --' . PHP_EOL;
+                    $this->displayVisitationsRecordsMenu();
+                } else {
+                    $this->deleteVisitation();
+                }
                 break;
 
             case 5:
@@ -207,16 +244,34 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewPatients();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no patients in the app --' . PHP_EOL;
+                    $this->displayPatientsMenu();
+                } else {
+                    $this->viewPatients();
+                }
                 break;
             case 2:
                 $this->addPatient();
                 break;
             case 3:
-                $this->updatePatient();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no patients in the app --' . PHP_EOL;
+                    $this->displayPatientsMenu();
+                } else {
+                    $this->updatePatient();
+                }
                 break;
             case 4:
-                $this->deletePatient();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no patients in the app --' . PHP_EOL;
+                    $this->displayPatientsMenu();
+                } else {
+                    $this->deletePatient();
+                }
                 break;
 
             case 5:
@@ -371,7 +426,7 @@ class Start
             case 3:
                 if (count($this->medicalRecords) === 0) {
                     echo PHP_EOL;
-                    echo '-- There is no existing medical records --' . PHP_EOL;
+                    echo '-- There are no existing medical records --' . PHP_EOL;
                     $this->displayMedicalRecordsMenu();
                 } else {
                     $this->updateMedicalRecord();
@@ -380,7 +435,7 @@ class Start
             case 4:
                 if (count($this->medicalRecords) === 0) {
                     echo PHP_EOL;
-                    echo '-- There is no existing medical records --' . PHP_EOL;
+                    echo '-- There are no existing medical records --' . PHP_EOL;
                     $this->displayMedicalRecordsMenu();
                 } else {
                     $this->deleteMedicalRecord();
@@ -514,40 +569,46 @@ class Start
 
     private function addVisitation()
     {
-        $s = new stdClass();
-        $s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
-        $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');
+        if(!empty($this->visitors) && !empty($this->patients)) {
+            $s = new stdClass();
+            $s->date = Helper::validateDateInput('Enter new appointment date(yyyy-mm-dd): ');
+            $s->time = Helper::validateTimeInput('Enter new appointment time(hh:mm): ');
 
-        $s->patients = [];
-        while (true) {
-            $this->viewPatients(false);
-            $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
-            $rb--;
+            $s->patients = [];
+            while (true) {
+                $this->viewPatients(false);
+                $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
+                $rb--;
 
-            $s->patients[] = $this->patients[$rb];
-            break;
+                $s->patients[] = $this->patients[$rb];
+                break;
 
+            }
+            $s->visitors = [];
+            while (true) {
+                $this->viewVisitors(false);
+                $rb = Helper::maxRange('Choose a visitor: ', 1, count($this->visitors));
+                $rb--;
+
+                $s->visitors[] = $this->visitors[$rb];
+                break;
+
+            }
+
+
+            $this->visitations[] = $s;
+            echo '                                ' . PHP_EOL;
+            echo '             __    __         __' . PHP_EOL;
+            echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
+            echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
+            echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
+            echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
+            echo '                                ' . PHP_EOL;
+        } else {
+            echo PHP_EOL;
+            echo '-- There are no patients or visitors in the app, add both before adding visitation! --';
+            echo PHP_EOL;
         }
-        $s->visitors = [];
-        while (true) {
-            $this->viewVisitors(false);
-            $rb = Helper::maxRange('Choose a visitor: ', 1, count($this->visitors));
-            $rb--;
-
-            $s->visitors[] = $this->visitors[$rb];
-            break;
-
-        }
-
-
-        $this->visitations[] = $s;
-        echo '                                ' . PHP_EOL;
-        echo '             __    __         __' . PHP_EOL;
-        echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
-        echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
-        echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
-        echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
-        echo '                                ' . PHP_EOL;
         $this->displayVisitationsRecordsMenu();
 
     }
@@ -636,30 +697,36 @@ class Start
 
     private function addPatient()
     {
-        $p = new stdClass();
-        $p->firstName = Helper::validateNoNumericals('Enter first name of the patient: ');
-        $p->lastName = Helper::validateNoNumericals('Enter last name of the patient: ');
-        $p->address = Helper::textEntry('Enter patients address: ');
-        $p->oib = Helper::validateOIB('Enter patients oib: ');
+        if(!empty($this->doctors)) {
+            $p = new stdClass();
+            $p->firstName = Helper::validateNoNumericals('Enter first name of the patient: ');
+            $p->lastName = Helper::validateNoNumericals('Enter last name of the patient: ');
+            $p->address = Helper::textEntry('Enter patients address: ');
+            $p->oib = Helper::validateOIB('Enter patients oib: ');
 
-        while (true) {
-            $this->viewDoctors(false);
-            $rb = Helper::maxRange('Choose a doctor: ', 1, count($this->doctors));
-            $rb--;
-            $p->doctors[] = $this->doctors[$rb];
-            break;
+            while (true) {
+                $this->viewDoctors(false);
+                $rb = Helper::maxRange('Choose a doctor: ', 1, count($this->doctors));
+                $rb--;
+                $p->doctors[] = $this->doctors[$rb];
+                break;
 
+            }
+
+
+            $this->patients[] = $p;
+            echo '                                ' . PHP_EOL;
+            echo '             __    __         __' . PHP_EOL;
+            echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
+            echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
+            echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
+            echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
+            echo '                                ' . PHP_EOL;
+        } else {
+            echo PHP_EOL;
+            echo '-- There are no existing doctors, add a doctor first! --';
+            echo PHP_EOL;
         }
-
-
-        $this->patients[] = $p;
-        echo '                                ' . PHP_EOL;
-        echo '             __    __         __' . PHP_EOL;
-        echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
-        echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
-        echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
-        echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
-        echo '                                ' . PHP_EOL;
         $this->displayPatientsMenu();
     }
 
@@ -769,7 +836,7 @@ class Start
             echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
             echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
             echo '                                ' . PHP_EOL;
-            
+
         } else {
             echo PHP_EOL;
             echo '-- There are no existing departments, add new department first! --';
