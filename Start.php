@@ -464,6 +464,7 @@ class Start
     {
         echo '--------------------' . PHP_EOL;
         echo 'Current visitors: ' . PHP_EOL;
+        echo '--------------------' . PHP_EOL;
         $ol = 1;
         foreach ($this->visitations as $visitation) {
             echo $ol++ . '. ' . 'Date: ' . $visitation->date . PHP_EOL . '   Time: ' . $visitation->time . PHP_EOL . '   Patient: ' . $visitation->patients->firstName . ' ' . $visitation->patients->lastName . PHP_EOL . '   Visitor: ' . $visitation->visitors->firstName . ' ' .  $visitation->visitors->lastName . PHP_EOL;
@@ -582,12 +583,14 @@ class Start
 
         echo '--------------------' . PHP_EOL;
         echo 'Current patients: ' . PHP_EOL;
+        echo '--------------------' . PHP_EOL;
         $rb = 1;
 
         foreach ($this->patients as $p) {
-            echo $rb++ . '. ' . $p->firstName . ' ' . $p->lastName . ' || ' . $p->address . ' ' . $p->oib . ' ' . PHP_EOL . '   Doctor: ' . $p->doctors->firstName . ' ' . $p->doctors->lastName . PHP_EOL;
+            echo $rb++ . '. ' . 'Name: ' . $p->firstName . ' ' . $p->lastName . PHP_EOL . '   Address: ' . $p->address . PHP_EOL . '   OIB: ' . $p->oib . ' ' . PHP_EOL . '   Doctor: ' . $p->doctors->firstName . ' ' . $p->doctors->lastName . PHP_EOL;
+            echo '--------------------' . PHP_EOL;
         }
-        echo '--------------------' . PHP_EOL;
+
         if ($displayPatients) {
             $this->displayPatientsMenu();
         }
