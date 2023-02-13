@@ -22,7 +22,7 @@ class Start
         $this->doctors = [];
         $this->departments = [];
         $this->medicalRecords = [];
-        $this->testData();
+//        $this->testData();
         $this->getMessage();
         $this->displayMainMenu();
 
@@ -894,6 +894,10 @@ class Start
 
     private function addMedicalRecord()
     {
+        if(!empty($this->patients)) {
+
+
+
         $m = new stdClass();
         $m->date = Helper::validateDateInput('Enter the date of the doctors visit (yyyy-mm-dd): ');
         $m->diagnosis = Helper::validateNoNumericals('Enter patients diagnosis: ');
@@ -908,6 +912,7 @@ class Start
         }
 
 
+
         $this->medicalRecords[] = $m;
         echo '                                ' . PHP_EOL;
         echo '             __    __         __' . PHP_EOL;
@@ -916,6 +921,12 @@ class Start
         echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
         echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
         echo '                                ' . PHP_EOL;
+
+        } else {
+            echo PHP_EOL;
+            echo '-- There are no existing patients, add patients first! --';
+            echo PHP_EOL;
+        }
         $this->displayMedicalRecordsMenu();
     }
 
