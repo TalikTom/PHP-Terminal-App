@@ -461,19 +461,12 @@ class Start
     private function viewVisitations($displayVisitations = true)
     {
         echo '--------------------' . PHP_EOL;
-        echo 'Current visitors' . PHP_EOL;
+        echo 'Current visitors: ' . PHP_EOL;
         $ol = 1;
         foreach ($this->visitations as $visitation) {
-            echo $ol++ . '. ' . $visitation->date . ' ' . $visitation->time . PHP_EOL;
-
-            foreach ($visitation->patients as $p) {
-                echo 'Patient: ' . $p->firstName . ' ' . $p->lastName . PHP_EOL;
-            }
-            foreach ($visitation->visitors as $v) {
-                echo 'Visitor: ' . $v->firstName . ' ' . $v->lastName . PHP_EOL;
-            }
+            echo $ol++ . '. ' . 'Date: ' . $visitation->date . PHP_EOL . '   Time: ' . $visitation->time . PHP_EOL . '   Patient: ' . $visitation->patients->firstName . ' ' . $visitation->patients->lastName . PHP_EOL . '   Visitor: ' . $visitation->visitors->firstName . ' ' .  $visitation->visitors->lastName . PHP_EOL;
+            echo '--------------------' . PHP_EOL;
         }
-        echo '--------------------' . PHP_EOL;
         if ($displayVisitations) {
             $this->displayVisitationsRecordsMenu();
         }
@@ -588,11 +581,9 @@ class Start
         echo '--------------------' . PHP_EOL;
         echo 'Current patients: ' . PHP_EOL;
         $rb = 1;
+
         foreach ($this->patients as $p) {
-            echo $rb++ . '. ' . $p->firstName . ' ' . $p->lastName . ' || ' . $p->address . ' ' . $p->oib . ' ' . PHP_EOL;
-//            foreach ($p->doctors as $d) {
-//                echo "\t" . 'Doctor: ' . $d->firstName . ' ' . $d->lastName . ' ' . $d->specialization . PHP_EOL;
-//            }
+            echo $rb++ . '. ' . $p->firstName . ' ' . $p->lastName . ' || ' . $p->address . ' ' . $p->oib . ' ' . PHP_EOL . '   Doctor: ' . $p->doctors->firstName . ' ' . $p->doctors->lastName . PHP_EOL;
         }
         echo '--------------------' . PHP_EOL;
         if ($displayPatients) {
@@ -653,7 +644,7 @@ class Start
         $this->viewDoctors(false);
         $rb2 = Helper::maxRange('Choose a patient: ', 1, count($this->doctors));
         $rb2--;
-        $this->patients[$ol]->doctor = $this->doctors[$rb2];
+        $this->patients[$ol]->doctors = $this->doctors[$rb2];
 
         echo '                                          ' . PHP_EOL;
         echo '                   __      __           __' . PHP_EOL;
@@ -697,11 +688,10 @@ class Start
         echo '--------------------' . PHP_EOL;
         echo 'Doctors: ' . PHP_EOL;
         $rb = 1;
+
         foreach ($this->doctors as $v) {
-            echo $rb++ . '. ' . $v->firstName . ' ' . $v->lastName . ' || ' . $v->specialization . ' OIB: ' . $v->oib . PHP_EOL;
-            foreach ($v->departments as $p) {
-                echo "\t" . 'Department: ' . $p->departmentName . PHP_EOL;
-            }
+            echo $rb++ . '. ' . $v->firstName . ' ' . $v->lastName . ' || ' . $v->specialization . ' OIB: ' . $v->oib . PHP_EOL . '   Department: ' . $v->departments->departmentName . PHP_EOL;
+
         }
         echo '--------------------' . PHP_EOL;
         if ($displayDoctors) {
@@ -881,7 +871,7 @@ class Start
         echo 'Medical records: ' . PHP_EOL;
         $ol = 1;
         foreach ($this->medicalRecords as $medicalRecord) {
-            echo $ol++ . '. ' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL . '    ' . 'Patient: ' . $medicalRecord->patients[0]->firstName . ' ' . $medicalRecord->patients[0]->lastName . PHP_EOL;
+            echo $ol++ . '. ' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL . '    ' . 'Patient: ' . $medicalRecord->patients->firstName . ' ' . $medicalRecord->patients->lastName . PHP_EOL;
 
 
         }
@@ -979,27 +969,40 @@ class Start
     ---------*/
 
 
-    private function testData()
+    public function testData()
     {
-        $this->patients[] = $this->createPatient('Ciro', 'Gasparac', 'Tome Zdravkovica 30', '12345678912');
-        $this->patients[] = $this->createPatient('Djenka', 'Djuric', 'Serifa Konjevica 20', '12345678912');
 
-        $this->visitors[] = $this->createVisitor('Himzo', 'Polovina', 'Arsena Dedica 600', 12345678912);
-        $this->visitors[] = $this->createVisitor('Kicho', 'Slabinac', 'Serifa Konjevica 20', 12345678912);
 
         $this->departments[] = $this->createDepartment('Kardiologija', 20);
         $this->departments[] = $this->createDepartment('Psihijatrija', 10);
 
+        $this->doctors[] = $this->createDoctor('Ibrica', 'Jusic', 'Kardiolog', 12365478912, $this->departments[0]);
+        $this->doctors[] = $this->createDoctor('Kemal', 'Monteno', 'Psihijatar', 12365478912, $this->departments[1]);
+
+        $this->patients[] = $this->createPatient('Ciro', 'Gasparac', 'Tome Zdravkovica 30', '12345678912', $this->doctors[0]);
+        $this->patients[] = $this->createPatient('Djenka', 'Djuric', 'Serifa Konjevica 20', '12345678912', $this->doctors[1]);
+
+        $this->visitors[] = $this->createVisitor('Himzo', 'Polovina', 'Arsena Dedica 600', 12345678912);
+        $this->visitors[] = $this->createVisitor('Kicho', 'Slabinac', 'Serifa Konjevica 20', 12345678912);
+
+        $this->medicalRecords[] = $this->createMedicalRecord('2023-05-05', 'dead', $this->patients[0]);
+        $this->medicalRecords[] = $this->createMedicalRecord('2023-06-06', 'alive', $this->patients[1]);
+
+        $this->visitations[] = $this->createVisitation('2023-06-06', '16:00', $this->patients[0], $this->visitors[0]);
+        $this->visitations[] = $this->createVisitation('2023-06-06', '15:00', $this->patients[1], $this->visitors[1]);
+
+
 
     }
 
-    private function createPatient($firstName, $lastName, $address, $oib)
+    private function createPatient($firstName, $lastName, $address, $oib, $doctors)
     {
         $s = new stdClass();
         $s->firstName = $firstName;
         $s->lastName = $lastName;
         $s->address = $address;
         $s->oib = $oib;
+        $s->doctors = $doctors;
 
 
         return $s;
@@ -1026,15 +1029,37 @@ class Start
         return $s;
     }
 
-    private function createDoctor($firstName, $lastName, $specialization, $oib, $department)
+    private function createDoctor($firstName, $lastName, $specialization, $oib, $departments)
     {
         $s = new stdClass();
         $s->firstName = $firstName;
         $s->lastName = $lastName;
         $s->specialization = $specialization;
         $s->oib = $oib;
-        $s->departmentName = $department->departmentName;
+        $s->departments = $departments;
 
+
+        return $s;
+
+
+    }
+
+    private function createMedicalRecord($date, $diagnosis, $patients)
+    {
+        $s = new stdClass();
+        $s->date = $date;
+        $s->diagnosis = $diagnosis;
+        $s->patients = $patients;
+
+        return $s;
+    }
+    private function createVisitation($date, $time, $patients, $visitors)
+    {
+        $s = new stdClass();
+        $s->date = $date;
+        $s->time = $time;
+        $s->patients = $patients;
+        $s->visitors = $visitors;
 
         return $s;
     }
@@ -1042,6 +1067,7 @@ class Start
     /* -------
     Test data end
     ---------*/
+
 
 
 }
