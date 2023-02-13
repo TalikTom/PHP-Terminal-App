@@ -366,12 +366,14 @@ class Start
     private function viewVisitors($displayAppointments = true)
     {
         echo '--------------------' . PHP_EOL;
-        echo 'Current visitors' . PHP_EOL;
+        echo 'Current visitors: ' . PHP_EOL;
+        echo '--------------------' . PHP_EOL;
         $ol = 1;
         foreach ($this->visitors as $visitor) {
-            echo $ol++ . '. ' . $visitor->firstName . ' ' . $visitor->lastName . ' || ' . $visitor->address . ' ' . $visitor->phoneNumber . PHP_EOL;
+            echo $ol++ . '. ' . 'Name: ' . $visitor->firstName . ' ' . $visitor->lastName . PHP_EOL . '   Address: ' . $visitor->address . PHP_EOL . '   Phone number: ' . $visitor->phoneNumber . PHP_EOL;
+            echo '--------------------' . PHP_EOL;
         }
-        echo '--------------------' . PHP_EOL;
+
         if ($displayAppointments) {
             $this->displayVisitorsMenu();
         }
