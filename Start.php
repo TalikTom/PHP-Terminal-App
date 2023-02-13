@@ -283,16 +283,34 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewDepartments();
+                if (count($this->departments) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no existing departments --' . PHP_EOL;
+                    $this->displayDepartmentsMenu();
+                } else {
+                    $this->viewDepartments();
+                }
                 break;
             case 2:
                 $this->addDepartment();
                 break;
             case 3:
-                $this->updateDepartment();
+                if (count($this->departments) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no existing departments --' . PHP_EOL;
+                    $this->displayDepartmentsMenu();
+                } else {
+                    $this->updateDepartment();
+                }
                 break;
             case 4:
-                $this->deleteDepartment();
+                if (count($this->departments) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no existing departments --' . PHP_EOL;
+                    $this->displayDepartmentsMenu();
+                } else {
+                    $this->deleteDepartment();
+                }
                 break;
 
             case 5:
@@ -323,7 +341,7 @@ class Start
             case 1:
                 if (count($this->medicalRecords) === 0) {
                     echo PHP_EOL;
-                    echo '-- There is no existing medical records --' . PHP_EOL;
+                    echo '-- There are no existing medical records --' . PHP_EOL;
                     $this->displayMedicalRecordsMenu();
                 } else {
                     $this->viewMedicalRecords();
