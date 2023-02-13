@@ -245,16 +245,34 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewDoctors();
+                if (count($this->doctors) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no existing doctors --' . PHP_EOL;
+                    $this->displayDoctorsMenu();
+                } else {
+                    $this->viewDoctors();
+                }
                 break;
             case 2:
                 $this->addDoctor();
                 break;
             case 3:
-                $this->updateDoctor();
+                if (count($this->doctors) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no existing doctors --' . PHP_EOL;
+                    $this->displayDoctorsMenu();
+                } else {
+                    $this->updateDoctor();
+                }
                 break;
             case 4:
-                $this->deleteDoctor();
+                if (count($this->doctors) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There are no existing doctors --' . PHP_EOL;
+                    $this->displayDoctorsMenu();
+                } else {
+                    $this->deleteDoctor();
+                }
                 break;
 
             case 5:
@@ -725,27 +743,43 @@ class Start
 
     private function addDoctor()
     {
-        $o = new stdClass();
-        $o->firstName = Helper::validateNoNumericals('Enter first name: ');
-        $o->lastName = Helper::validateNoNumericals('Enter last name: ');
-        $o->specialization = Helper::validateNoNumericals('Enter specialization: ');
-        $o->oib = Helper::validateOIB('Enter oib: ');
+        if(!empty($this->departments)) {
+            $o = new stdClass();
+            $o->firstName = Helper::validateNoNumericals('Enter first name: ');
+            $o->lastName = Helper::validateNoNumericals('Enter last name: ');
+            $o->specialization = Helper::validateNoNumericals('Enter specialization: ');
+            $o->oib = Helper::validateOIB('Enter oib: ');
 
 
-        while (true) {
-            $this->viewDepartments(false);
-            $rb = Helper::maxRange('Choose a department: ', 1, count($this->departments));
-            $rb--;
-            $o->departments[] = $this->departments[$rb];
-            break;
+            while (true) {
+                $this->viewDepartments(false);
+                $rb = Helper::maxRange('Choose a department: ', 1, count($this->departments));
+                $rb--;
+                $o->departments[] = $this->departments[$rb];
+                break;
 
+            }
+
+
+            $this->doctors[] = $o;
+            echo '                                ' . PHP_EOL;
+            echo '             __    __         __' . PHP_EOL;
+            echo '  ____ _____/ /___/ /__  ____/ /' . PHP_EOL;
+            echo ' / __ `/ __  / __  / _ \/ __  / ' . PHP_EOL;
+            echo '/ /_/ / /_/ / /_/ /  __/ /_/ /  ' . PHP_EOL;
+            echo '\__,_/\__,_/\__,_/\___/\__,_/   ' . PHP_EOL;
+            echo '                                ' . PHP_EOL;
+            
+        } else {
+            echo PHP_EOL;
+            echo '-- There are no existing departments, add new department first! --';
+            echo PHP_EOL;
         }
 
-
-        $this->doctors[] = $o;
         $this->displayDoctorsMenu();
 
     }
+
 
     private function updateDoctor()
     {
