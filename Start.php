@@ -321,16 +321,35 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                $this->viewMedicalRecords();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There is no existing medical records --' . PHP_EOL;
+                    $this->displayMedicalRecordsMenu();
+                } else {
+                    $this->viewMedicalRecords();
+                }
                 break;
             case 2:
                 $this->addMedicalRecord();
                 break;
             case 3:
-                $this->updateMedicalRecord();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There is no existing medical records --' . PHP_EOL;
+                    $this->displayMedicalRecordsMenu();
+                } else {
+                    $this->updateMedicalRecord();
+                }
                 break;
             case 4:
-                $this->deleteMedicalRecord();
+                if (count($this->medicalRecords) === 0) {
+                    echo PHP_EOL;
+                    echo '-- There is no existing medical records --' . PHP_EOL;
+                    $this->displayMedicalRecordsMenu();
+                } else {
+                    $this->deleteMedicalRecord();
+                }
+                break;
 
             case 5:
                 $this->displayMainMenu();
@@ -862,7 +881,7 @@ class Start
         echo 'Medical records: ' . PHP_EOL;
         $ol = 1;
         foreach ($this->medicalRecords as $medicalRecord) {
-            echo $ol++ . '. ' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL . '    '. 'Patient: ' . $medicalRecord->patients[0]->firstName . ' ' . $medicalRecord->patients[0]->lastName . PHP_EOL;
+            echo $ol++ . '. ' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL . '    ' . 'Patient: ' . $medicalRecord->patients[0]->firstName . ' ' . $medicalRecord->patients[0]->lastName . PHP_EOL;
 
 
         }
@@ -962,8 +981,8 @@ class Start
 
     private function testData()
     {
-        $this->patients[] = $this->createPatient('Meho', 'Puzic', 'Tome Zdravkovica 30', '12345678912');
-        $this->patients[] = $this->createPatient('Berka', 'Berishevic', 'Serifa Konjevica 20', '12345678912');
+        $this->patients[] = $this->createPatient('Ciro', 'Gasparac', 'Tome Zdravkovica 30', '12345678912');
+        $this->patients[] = $this->createPatient('Djenka', 'Djuric', 'Serifa Konjevica 20', '12345678912');
 
         $this->visitors[] = $this->createVisitor('Himzo', 'Polovina', 'Arsena Dedica 600', 12345678912);
         $this->visitors[] = $this->createVisitor('Kicho', 'Slabinac', 'Serifa Konjevica 20', 12345678912);
@@ -1023,7 +1042,6 @@ class Start
     /* -------
     Test data end
     ---------*/
-
 
 
 }
