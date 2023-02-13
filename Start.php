@@ -131,7 +131,7 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->visitors) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no visitors in the app --' . PHP_EOL;
                     $this->displayVisitorsMenu();
@@ -144,7 +144,7 @@ class Start
                 $this->addVisitors();
                 break;
             case 3:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->visitors) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no visitors in the app --' . PHP_EOL;
                     $this->displayVisitorsMenu();
@@ -153,7 +153,7 @@ class Start
                 }
                 break;
             case 4:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->visitors) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no visitors in the app --' . PHP_EOL;
                     $this->displayVisitorsMenu();
@@ -188,7 +188,7 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->visitations) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no visitations in the app --' . PHP_EOL;
                     $this->displayVisitationsRecordsMenu();
@@ -200,7 +200,7 @@ class Start
                 $this->addVisitation();
                 break;
             case 3:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->visitations) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no visitations in the app --' . PHP_EOL;
                     $this->displayVisitationsRecordsMenu();
@@ -209,7 +209,7 @@ class Start
                 }
                 break;
             case 4:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->visitations) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no visitations in the app --' . PHP_EOL;
                     $this->displayVisitationsRecordsMenu();
@@ -244,7 +244,7 @@ class Start
     {
         switch (Helper::maxRange('Choose an option: ', 1, 5)) {
             case 1:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->patients) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no patients in the app --' . PHP_EOL;
                     $this->displayPatientsMenu();
@@ -256,7 +256,7 @@ class Start
                 $this->addPatient();
                 break;
             case 3:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->patients) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no patients in the app --' . PHP_EOL;
                     $this->displayPatientsMenu();
@@ -265,7 +265,7 @@ class Start
                 }
                 break;
             case 4:
-                if (count($this->medicalRecords) === 0) {
+                if (count($this->patients) === 0) {
                     echo PHP_EOL;
                     echo '-- There are no patients in the app --' . PHP_EOL;
                     $this->displayPatientsMenu();
