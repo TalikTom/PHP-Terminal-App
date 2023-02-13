@@ -1119,7 +1119,7 @@ class Start
         $this->doctors[] = $this->createDoctor('Kemal', 'Monteno', 'Psychiatry', 12365478912, $this->departments[1]);
 
         $this->patients[] = $this->createPatient('Ciro', 'Gasparac', 'Tome Zdravkovica 30', '12345678912', $this->doctors[0]);
-        $this->patients[] = $this->createPatient('Djenka', 'Djuric', 'Serifa Konjevica 20', '12345678912', $this->doctors[1]);
+        $this->patients[] = $this->createPatient('Mladen', 'Grdovic', 'Put Arbanasa 20', '12345678912', $this->doctors[1]);
 
         $this->visitors[] = $this->createVisitor('Himzo', 'Polovina', 'Arsena Dedica 600', 12345678912);
         $this->visitors[] = $this->createVisitor('Kicho', 'Slabinac', 'Serifa Konjevica 20', 12345678912);
