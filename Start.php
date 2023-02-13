@@ -793,11 +793,13 @@ class Start
     {
         echo '--------------------' . PHP_EOL;
         echo 'Current departments' . PHP_EOL;
+        echo '--------------------' . PHP_EOL;
         $ol = 1;
         foreach ($this->departments as $department) {
-            echo $ol++ . '. ' . $department->departmentName . ' ' . '|| Total rooms: ' . $department->numberOfRooms . PHP_EOL;
+            echo $ol++ . '. ' . 'Department name: ' . $department->departmentName . PHP_EOL . '   Total rooms: ' . $department->numberOfRooms . PHP_EOL;
+            echo '--------------------' . PHP_EOL;
         }
-        echo '--------------------' . PHP_EOL;
+
         if ($displayDepartments) {
             $this->displayDepartmentsMenu();
         }
