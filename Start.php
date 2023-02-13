@@ -877,13 +877,14 @@ class Start
     {
         echo '--------------------' . PHP_EOL;
         echo 'Medical records: ' . PHP_EOL;
+        echo '--------------------' . PHP_EOL;
         $ol = 1;
         foreach ($this->medicalRecords as $medicalRecord) {
-            echo $ol++ . '. ' . ' Date: ' . $medicalRecord->date . ' ' . '|| Diagnosis: ' . $medicalRecord->diagnosis . PHP_EOL . '    ' . 'Patient: ' . $medicalRecord->patients->firstName . ' ' . $medicalRecord->patients->lastName . PHP_EOL;
-
+            echo $ol++ . '. ' . ' Date: ' . $medicalRecord->date . PHP_EOL . '    ' . 'Patient: ' . $medicalRecord->patients->firstName . ' ' . $medicalRecord->patients->lastName . PHP_EOL . '    Diagnosis: ' . $medicalRecord->diagnosis  . PHP_EOL;
+            echo '--------------------' . PHP_EOL;
 
         }
-        echo '--------------------' . PHP_EOL;
+
         if ($displayMedicalRecords) {
             $this->displayMedicalRecordsMenu();
 
@@ -993,8 +994,8 @@ class Start
         $this->visitors[] = $this->createVisitor('Himzo', 'Polovina', 'Arsena Dedica 600', 12345678912);
         $this->visitors[] = $this->createVisitor('Kicho', 'Slabinac', 'Serifa Konjevica 20', 12345678912);
 
-        $this->medicalRecords[] = $this->createMedicalRecord('2023-05-05', 'dead', $this->patients[0]);
-        $this->medicalRecords[] = $this->createMedicalRecord('2023-06-06', 'alive', $this->patients[1]);
+        $this->medicalRecords[] = $this->createMedicalRecord('2023-05-05', 'Dead', $this->patients[0]);
+        $this->medicalRecords[] = $this->createMedicalRecord('2023-06-06', 'Alive', $this->patients[1]);
 
         $this->visitations[] = $this->createVisitation('2023-06-06', '16:00', $this->patients[0], $this->visitors[0]);
         $this->visitations[] = $this->createVisitation('2023-06-06', '15:00', $this->patients[1], $this->visitors[1]);
