@@ -692,13 +692,14 @@ class Start
     {
         echo '--------------------' . PHP_EOL;
         echo 'Doctors: ' . PHP_EOL;
+        echo '--------------------' . PHP_EOL;
         $rb = 1;
 
         foreach ($this->doctors as $v) {
-            echo $rb++ . '. ' . $v->firstName . ' ' . $v->lastName . ' || ' . $v->specialization . ' OIB: ' . $v->oib . PHP_EOL . '   Department: ' . $v->departments->departmentName . PHP_EOL;
-
+            echo $rb++ . '. ' . 'Name: ' . $v->firstName . ' ' . $v->lastName . PHP_EOL . '   Specialization: ' . $v->specialization . PHP_EOL . '   OIB: ' . $v->oib . PHP_EOL . '   Department: ' . $v->departments->departmentName . PHP_EOL;
+            echo '--------------------' . PHP_EOL;
         }
-        echo '--------------------' . PHP_EOL;
+
         if ($displayDoctors) {
             $this->displayDoctorsMenu();
         }
@@ -978,11 +979,11 @@ class Start
     {
 
 
-        $this->departments[] = $this->createDepartment('Kardiologija', 20);
-        $this->departments[] = $this->createDepartment('Psihijatrija', 10);
+        $this->departments[] = $this->createDepartment('Cardiology', 20);
+        $this->departments[] = $this->createDepartment('Psychiatry', 10);
 
-        $this->doctors[] = $this->createDoctor('Ibrica', 'Jusic', 'Kardiolog', 12365478912, $this->departments[0]);
-        $this->doctors[] = $this->createDoctor('Kemal', 'Monteno', 'Psihijatar', 12365478912, $this->departments[1]);
+        $this->doctors[] = $this->createDoctor('Ibrica', 'Jusic', 'Cardiology', 12365478912, $this->departments[0]);
+        $this->doctors[] = $this->createDoctor('Kemal', 'Monteno', 'Psychiatry', 12365478912, $this->departments[1]);
 
         $this->patients[] = $this->createPatient('Ciro', 'Gasparac', 'Tome Zdravkovica 30', '12345678912', $this->doctors[0]);
         $this->patients[] = $this->createPatient('Djenka', 'Djuric', 'Serifa Konjevica 20', '12345678912', $this->doctors[1]);
