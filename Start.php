@@ -22,7 +22,7 @@ class Start
         $this->doctors = [];
         $this->departments = [];
         $this->medicalRecords = [];
-//        $this->testData();
+        $this->testData();
         $this->getMessage();
         $this->displayMainMenu();
 
@@ -580,7 +580,7 @@ class Start
                 $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
                 $rb--;
 
-                $s->patients[] = $this->patients[$rb];
+                $s->patients = $this->patients[$rb];
                 break;
 
             }
@@ -590,7 +590,7 @@ class Start
                 $rb = Helper::maxRange('Choose a visitor: ', 1, count($this->visitors));
                 $rb--;
 
-                $s->visitors[] = $this->visitors[$rb];
+                $s->visitors = $this->visitors[$rb];
                 break;
 
             }
@@ -708,7 +708,7 @@ class Start
                 $this->viewDoctors(false);
                 $rb = Helper::maxRange('Choose a doctor: ', 1, count($this->doctors));
                 $rb--;
-                $p->doctors[] = $this->doctors[$rb];
+                $p->doctors = $this->doctors[$rb];
                 break;
 
             }
@@ -822,7 +822,7 @@ class Start
                 $this->viewDepartments(false);
                 $rb = Helper::maxRange('Choose a department: ', 1, count($this->departments));
                 $rb--;
-                $o->departments[] = $this->departments[$rb];
+                $o->departments = $this->departments[$rb];
                 break;
 
             }
@@ -1025,7 +1025,7 @@ class Start
             $this->viewPatients(false);
             $rb = Helper::maxRange('Choose a patient: ', 1, count($this->patients));
             $rb--;
-            $m->patients[] = $this->patients[$rb];
+            $m->patients = $this->patients[$rb];
             break;
 
         }
